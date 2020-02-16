@@ -3,6 +3,8 @@ package com.ecommerce.spring5onlineshop.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProductTest {
@@ -74,5 +76,19 @@ class ProductTest {
 
         // Then
         assertEquals(lastName, product.getCart().getMember().getLastName());
+    }
+
+    @Test
+    void getCategories() {
+        // Given
+        String categoryDescription = "foo";
+        Category category = Category.builder().description(categoryDescription).build();
+
+        // When
+        product.setCategories(Set.of(category));
+
+        // Then
+        assertEquals(categoryDescription, product.getCategories().iterator().next().getDescription());
+        assertEquals(1, product.getCategories().size());
     }
 }

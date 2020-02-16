@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,4 +27,7 @@ public class Product extends BaseEntity {
 
     @ManyToOne
     private Cart cart;
+
+    @ManyToMany(targetEntity=Category.class)
+    private Set<Category> categories;
 }

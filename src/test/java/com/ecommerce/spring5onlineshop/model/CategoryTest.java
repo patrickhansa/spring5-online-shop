@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ProductTypeTest {
+class CategoryTest {
 
-    ProductType productType;
+    Category category;
 
     @BeforeEach
     void setUp() {
-        productType = new ProductType();
+        category = new Category();
     }
 
     @Test
@@ -20,9 +20,9 @@ class ProductTypeTest {
         String description = "foo";
 
         // When
-        productType.setDescription(description);
+        category.setDescription(description);
 
         // Then
-        assertEquals(description, productType.getDescription());
+        assertEquals(description, category.getDescription());
     }
 }
