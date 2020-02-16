@@ -69,13 +69,13 @@ class ProductTest {
         // Given
         String lastName = "Smith";
         Member member = Member.builder().lastName(lastName).build();
-        Cart cart = Cart.builder().member(member).build();
+        ShoppingCart shoppingCart = ShoppingCart.builder().member(member).build();
 
         // When
-        product.setCart(cart);
+        product.setShoppingCart(shoppingCart);
 
         // Then
-        assertEquals(lastName, product.getCart().getMember().getLastName());
+        assertEquals(lastName, product.getShoppingCart().getMember().getLastName());
     }
 
     @Test

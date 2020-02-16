@@ -102,12 +102,12 @@ class MemberTest {
     void getCart() {
         // Given
         Integer quantity = 1;
-        Cart cart = Cart.builder().quantity(quantity).build();
+        ShoppingCart shoppingCart = ShoppingCart.builder().quantity(quantity).build();
 
         // When
-        member.setCart(cart);
+        member.setShoppingCart(shoppingCart);
 
         // Then
-        assertEquals(quantity, member.getCart().getQuantity());
+        assertEquals(quantity, member.getShoppingCart().getQuantity());
     }
 }

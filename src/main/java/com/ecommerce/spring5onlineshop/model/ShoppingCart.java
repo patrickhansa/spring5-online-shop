@@ -13,13 +13,13 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Cart extends BaseEntity {
+public class ShoppingCart extends BaseEntity {
 
     private Integer quantity;
 
     @OneToOne
     private Member member;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "shoppingCart")
     private Set<Product> products;
 }

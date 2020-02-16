@@ -28,5 +28,5 @@ public class Member extends BaseEntity {
     private String address;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Cart cart;
+    private ShoppingCart shoppingCart;
 }

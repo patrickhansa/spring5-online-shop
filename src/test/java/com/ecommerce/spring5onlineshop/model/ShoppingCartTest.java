@@ -7,13 +7,13 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CartTest {
+class ShoppingCartTest {
 
-    Cart cart;
+    ShoppingCart shoppingCart;
 
     @BeforeEach
     void setUp() {
-        cart = new Cart();
+        shoppingCart = new ShoppingCart();
     }
 
     @Test
@@ -22,10 +22,10 @@ class CartTest {
         Integer quantity = 12;
 
         // When
-        cart.setQuantity(quantity);
+        shoppingCart.setQuantity(quantity);
 
         // Then
-        assertEquals(quantity, cart.getQuantity());
+        assertEquals(quantity, shoppingCart.getQuantity());
     }
 
     @Test
@@ -36,10 +36,10 @@ class CartTest {
         member.setFirstName(firstName);
 
         // When
-        cart.setMember(member);
+        shoppingCart.setMember(member);
 
         // Then
-        assertEquals(firstName, cart.getMember().getFirstName());
+        assertEquals(firstName, shoppingCart.getMember().getFirstName());
     }
 
     @Test
@@ -49,10 +49,10 @@ class CartTest {
         Product product1 = Product.builder().description(description).build();
 
         // When
-        cart.setProducts(Set.of(product1));
+        shoppingCart.setProducts(Set.of(product1));
 
         // Then
-        assertEquals(description, cart.getProducts().iterator().next().getDescription());
-        assertEquals(1, cart.getProducts().size());
+        assertEquals(description, shoppingCart.getProducts().iterator().next().getDescription());
+        assertEquals(1, shoppingCart.getProducts().size());
     }
 }

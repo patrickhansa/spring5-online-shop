@@ -26,7 +26,7 @@ public class Product extends BaseEntity {
     private Byte[] image;
 
     @ManyToOne
-    private Cart cart;
+    private ShoppingCart shoppingCart;
 
     @ManyToMany(targetEntity=Category.class)
     private Set<Category> categories;
