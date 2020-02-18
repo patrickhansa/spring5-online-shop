@@ -31,7 +31,7 @@ class ProductTest {
     @Test
     void getPrice() {
         // Given
-        Integer price = 100;
+        Float price = 1.1F;
 
         // When
         product.setPrice(price);
@@ -46,10 +46,10 @@ class ProductTest {
         Integer stock = 2;
 
         // When
-        product.setPrice(stock);
+        product.setStock(stock);
 
         // Then
-        assertEquals(stock, product.getPrice());
+        assertEquals(stock, product.getStock());
     }
 
     @Test

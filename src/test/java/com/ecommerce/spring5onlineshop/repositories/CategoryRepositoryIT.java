@@ -17,25 +17,28 @@ class CategoryRepositoryIT {
 
     @Test
     void findByDescriptionBook() {
-
+        // When
         Optional<Category> categoryOptional = categoryRepository.findByDescription("Book");
 
+        // Then
         assertEquals("Book", categoryOptional.get().getDescription());
     }
 
     @Test
-    void findByDescriptionFood() {
+    void findByDescriptionElectronics() {
+        // When
+        Optional<Category> categoryOptional = categoryRepository.findByDescription("Electronics");
 
-        Optional<Category> categoryOptional = categoryRepository.findByDescription("Food");
-
-        assertEquals("Food", categoryOptional.get().getDescription());
+        // Then
+        assertEquals("Electronics", categoryOptional.get().getDescription());
     }
 
     @Test
     void findByDescriptionClothing() {
-
+        // When
         Optional<Category> categoryOptional = categoryRepository.findByDescription("Clothing");
 
+        // Then
         assertEquals("Clothing", categoryOptional.get().getDescription());
     }
 }

@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -16,7 +17,7 @@ import java.util.Set;
 @Entity
 public class Product extends BaseEntity {
     private String name;
-    private Integer price;
+    private Float price;
     private Integer stock;
 
     @Lob
@@ -29,5 +30,5 @@ public class Product extends BaseEntity {
     private ShoppingCart shoppingCart;
 
     @ManyToMany(targetEntity=Category.class)
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 }
