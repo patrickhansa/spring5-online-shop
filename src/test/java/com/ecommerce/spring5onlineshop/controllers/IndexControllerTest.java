@@ -32,7 +32,7 @@ public class IndexControllerTest {
     IndexController controller;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         controller = new IndexController(productService);
@@ -48,7 +48,7 @@ public class IndexControllerTest {
     }
 
     @Test
-    public void getIndexPage() throws Exception {
+    public void getIndexPage() {
         // Given
         Set<Product> products = new HashSet<>();
         products.add(new Product());

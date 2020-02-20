@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet"
+          href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <img th:src="@{'/product/' + ${product.id} + '/productimage'}" width="300" height="300">
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <h4 class="col-md-12" th:text="${product.name}">Product name</h4>
+            </div>
+            <div class="row">
+                <h5 class="col-md-12" th:text="${product.description}">Product description</h5>
+            </div>
+            <div class="row">
+                <h6 class="col-md-12" th:text="${product.price}">Product price</h6>
+            </div>
+            <div class="row">
+                <h6 class="col-md-12" th:text="${product.stock}">Product stock</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

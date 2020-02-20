@@ -8,9 +8,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class ProductServiceImplTest {
@@ -25,6 +27,24 @@ class ProductServiceImplTest {
         MockitoAnnotations.initMocks(this);
 
         productService = new ProductServiceImpl(productRepository);
+    }
+
+    @Test
+    void getRecipeByIdTest() {
+        // Given
+        Product product = new Product();
+        product.setId(1L);
+        Optional<Product> productOptional = Optional.of(product);
+
+        when(productRepository.findById(anyLong())).thenReturn(productOptional);
+
+        // When
+        Product productReturned = productService.findById(1L);
+
+        // Then
+        assertNotNull(productReturned, "Null product returned");
+        verify(productRepository, times(1)).findById(anyLong());
+        verify(productRepository, never()).findAll();
     }
 
     @Test

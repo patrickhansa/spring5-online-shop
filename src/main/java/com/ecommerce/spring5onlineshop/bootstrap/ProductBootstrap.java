@@ -4,16 +4,21 @@ import com.ecommerce.spring5onlineshop.model.Category;
 import com.ecommerce.spring5onlineshop.model.Product;
 import com.ecommerce.spring5onlineshop.repositories.CategoryRepository;
 import com.ecommerce.spring5onlineshop.repositories.ProductRepository;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class ProductBootstrap implements ApplicationListener<ContextRefreshedEvent> {
+public class ProductBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
@@ -24,7 +29,7 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
     }
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    public void onApplicationEvent(@NotNull ContextRefreshedEvent contextRefreshedEvent) {
         productRepository.saveAll(getProducts());
     }
 
@@ -64,6 +69,8 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
                 "Set against a vast and richly textured canvas of nineteenth-century Russia, the novel's seven " +
                 "major characters create a dynamic imbalance, playing out the contrasts of city and country life " +
                 "and all the variations on love and family happiness.\n");
+        annaKareninaBookProduct.setImage(fileToByteArray("Anna_Karenina"));
+
 
         Product smartLedTv = new Product();
         smartLedTv.getCategories().add(electronicsCategory);
@@ -73,6 +80,8 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
         smartLedTv.setDescription("The 24LH4830 PU Simple Smart TV. Features Simple Smart TV functionality. " +
                 "Screen Share (Miracast & WiDi). Wide viewing angle screen. ENERGY STAR Qualified." +
                 "Network File Browser Yes ; Google Dial Yes");
+        smartLedTv.setImage(fileToByteArray("Smart_led_TV"));
+
 
         Product waterproofSkiJacket = new Product();
         waterproofSkiJacket.getCategories().add(clothingCategory);
@@ -82,14 +91,47 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
         waterproofSkiJacket.setStock(5);
         waterproofSkiJacket.setDescription("This jacket is made from new high quality polyester material, which is " +
                 "waterproof, windproof, durable and stain repellent.\n" +
-                "Speciall high-density fabric and coating, film composite process to obstructe the air intrusion " +
+                "Special high-density fabric and coating, film composite process to obstruct the air intrusion " +
                 "effectively and works well on windproof.\n" +
                 "Ergonomic 3-structured cutting and fuzzy lining can provide enough warmth for outdoor life");
+        waterproofSkiJacket.setImage(fileToByteArray("Winter_jacket"));
+
 
         products.add(annaKareninaBookProduct);
         products.add(smartLedTv);
         products.add(waterproofSkiJacket);
 
         return products;
+    }
+
+
+    /**
+     * Utility method for converting a local image
+     * to a Byte array object
+     *
+     * @param fileName Name of the image
+     * @return Byte[]
+     */
+    @Nullable
+    private Byte[] fileToByteArray(String fileName) {
+
+        File file = new File("src\\main\\resources\\static\\images\\" + fileName + ".jpg");
+
+        try {
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            Byte[] byteObject = new Byte[bytes.length];
+
+            int i = 0;
+            for (byte b : bytes) {
+                byteObject[i++] = b;
+            }
+
+            return byteObject;
+        } catch (IOException ex) {
+            System.out.println("Could not convert file to a byte array" + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 }
