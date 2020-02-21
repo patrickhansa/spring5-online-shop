@@ -53,7 +53,7 @@ public class ImageControllerTest {
         when(productService.findById(anyLong())).thenReturn(product);
 
         // When
-        MockHttpServletResponse response = mockMvc.perform(get("/product/1/productimage"))
+        MockHttpServletResponse response = mockMvc.perform(get("/product/1/productImage"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
 

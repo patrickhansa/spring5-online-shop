@@ -21,7 +21,7 @@ public class ImageController {
         this.productService = productService;
     }
 
-    @GetMapping("product/{id}/productimage")
+    @GetMapping("product/{id}/productImage")
     public void renderImageFromDb(@PathVariable String id, HttpServletResponse response) throws IOException {
         Product product = productService.findById(Long.valueOf(id));
 
