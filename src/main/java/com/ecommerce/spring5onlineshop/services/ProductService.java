@@ -10,5 +10,9 @@ public interface ProductService {
 
     Product findById(Long l);
 
+    ProductCommand findCommandById(Long l);
+
     ProductCommand saveProductCommand(ProductCommand command);
+
+    void deleteById(Long l);
 }

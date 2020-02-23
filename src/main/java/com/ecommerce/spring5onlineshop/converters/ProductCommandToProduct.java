@@ -39,11 +39,12 @@ public class ProductCommandToProduct implements Converter<ProductCommand, Produc
 
             int i = 0;
 
-            for (byte b : source.getImage().getBytes()){
+            for (byte b : source.getImage().getBytes()) {
                 byteObjects[i++] = b;
             }
 
             product.setImage(byteObjects);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

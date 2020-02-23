@@ -50,11 +50,23 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    public ProductCommand findCommandById(Long l) {
+
+        return productToProductCommand.convert(findById(l));
+    }
+
+    @Override
+    @Transactional
     public ProductCommand saveProductCommand(ProductCommand command) {
         Product detachedProduct = productCommandToProduct.convert(command);
 
         Product savedProduct = productRepository.save(detachedProduct);
         log.debug("Saved product ID: " + savedProduct.getId());
         return productToProductCommand.convert(savedProduct);
+    }
+
+    @Override
+    public void deleteById(Long idToDelete) {
+        productRepository.deleteById(idToDelete);
     }
 }

@@ -38,7 +38,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void getRecipeByIdTest() {
+    void getProductByIdTest() {
         // Given
         Product product = new Product();
         product.setId(1L);
@@ -71,5 +71,17 @@ class ProductServiceImplTest {
         assertEquals(products.size(), 1);
         verify(productRepository, times(1)).findAll();
         verify(productRepository, never()).findById(anyLong());
+    }
+
+    @Test
+    public void testDeleteById() {
+        // Given
+        Long idToDelete = 2L;
+
+        // When
+        productService.deleteById(idToDelete);
+
+        // Then
+        verify(productRepository, times(1)).deleteById(anyLong());
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -76,5 +76,30 @@ public class ProductControllerTest {
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/product/2/show"));
+    }
+
+    @Test
+    public void testGetUpdateView() throws Exception {
+        // Given
+        ProductCommand command = new ProductCommand();
+        command.setId(2L);
+
+        // When
+        when(productService.findCommandById(anyLong())).thenReturn(command);
+
+        // Then
+        mockMvc.perform(get("/product/1/update"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("product/productForm"))
+                .andExpect(model().attributeExists("product"));
+    }
+
+    @Test
+    public void testDeleteAction() throws Exception {
+        mockMvc.perform(get("/product/1/delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
+
+        verify(productService, times(1)).deleteById(anyLong());
     }
 }
