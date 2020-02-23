@@ -5,6 +5,8 @@ import com.ecommerce.spring5onlineshop.commands.ProductCommand;
 import com.ecommerce.spring5onlineshop.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,11 +24,15 @@ class ProductCommandToProductTest {
     private static final String DESCRIPTION = "Foo";
     private static final Long SHOPPING_CART_ID = 2L;
 
+    @Mock
+    MockMultipartFile image;
+
     ProductCommandToProduct converter;
 
     @BeforeEach
     void setUp() {
         converter = new ProductCommandToProduct(new CategoryCommandToCategory());
+        image = new MockMultipartFile("file", "orig", null, "bar".getBytes());
     }
 
     @Test
@@ -36,7 +42,12 @@ class ProductCommandToProductTest {
 
     @Test
     public void testEmptyObject() {
-        assertNotNull(converter.convert(new ProductCommand()));
+        // Given
+        ProductCommand productCommand = new ProductCommand();
+        productCommand.setImage(image);
+
+        // Then
+        assertNotNull(converter.convert(productCommand));
     }
 
     @Test
@@ -49,6 +60,7 @@ class ProductCommandToProductTest {
         productCommand.setStock(STOCK);
         productCommand.setDescription(DESCRIPTION);
         productCommand.setShoppingCartId(SHOPPING_CART_ID);
+        productCommand.setImage(image);
         Set<CategoryCommand> categories = Stream.of(new CategoryCommand(), new CategoryCommand())
                 .collect(Collectors.toCollection(HashSet::new));
         productCommand.setCategories(categories);

@@ -8,6 +8,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class ProductCommandToProduct implements Converter<ProductCommand, Product> {
 
@@ -31,7 +33,20 @@ public class ProductCommandToProduct implements Converter<ProductCommand, Produc
         product.setPrice(source.getPrice());
         product.setStock(source.getStock());
         product.setDescription(source.getDescription());
-        product.setImage(source.getImage());
+
+        try {
+            Byte[] byteObjects = new Byte[source.getImage().getBytes().length];
+
+            int i = 0;
+
+            for (byte b : source.getImage().getBytes()){
+                byteObjects[i++] = b;
+            }
+
+            product.setImage(byteObjects);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (source.getShoppingCartId() != null) {
             ShoppingCart shoppingCart = new ShoppingCart();

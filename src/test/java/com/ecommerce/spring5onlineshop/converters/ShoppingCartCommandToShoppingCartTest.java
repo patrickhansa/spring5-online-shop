@@ -5,6 +5,8 @@ import com.ecommerce.spring5onlineshop.commands.ShoppingCartCommand;
 import com.ecommerce.spring5onlineshop.model.ShoppingCart;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.mock.web.MockMultipartFile;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,6 +17,9 @@ class ShoppingCartCommandToShoppingCartTest {
     private static final Long PRODUCT_ID_1 = 2L;
     private static final Long PRODUCT_ID_2 = 3L;
 
+    @Mock
+    MockMultipartFile image;
+
     ShoppingCartCommandToShoppingCart converter;
 
     @BeforeEach
@@ -22,6 +27,7 @@ class ShoppingCartCommandToShoppingCartTest {
         converter = new ShoppingCartCommandToShoppingCart(
                         new ProductCommandToProduct(
                             new CategoryCommandToCategory()));
+        image = new MockMultipartFile("file", "orig", null, "bar".getBytes());
     }
 
     @Test
@@ -42,8 +48,10 @@ class ShoppingCartCommandToShoppingCartTest {
         shoppingCartCommand.setQuantity(QUANTITY);
         ProductCommand productCommand1 = new ProductCommand();
         productCommand1.setId(PRODUCT_ID_1);
+        productCommand1.setImage(image);
         ProductCommand productCommand2 = new ProductCommand();
         productCommand2.setId(PRODUCT_ID_2);
+        productCommand2.setImage(image);
         shoppingCartCommand.getProducts().add(productCommand1);
         shoppingCartCommand.getProducts().add(productCommand2);
 

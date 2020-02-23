@@ -30,7 +30,6 @@ public class ProductToProductCommand implements Converter<Product, ProductComman
         productCommand.setPrice(source.getPrice());
         productCommand.setStock(source.getStock());
         productCommand.setDescription(source.getDescription());
-        productCommand.setImage(source.getImage());
 
         if (source.getShoppingCart() != null) {
             productCommand.setShoppingCartId(source.getShoppingCart().getId());
