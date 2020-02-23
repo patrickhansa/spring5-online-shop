@@ -29,20 +29,6 @@ class ShoppingCartTest {
     }
 
     @Test
-    void getMember() {
-        // Given
-        String firstName = "Mike";
-        Member member = new Member();
-        member.setFirstName(firstName);
-
-        // When
-        shoppingCart.setMember(member);
-
-        // Then
-        assertEquals(firstName, shoppingCart.getMember().getFirstName());
-    }
-
-    @Test
     void getProducts() {
         // Given
         String description = "foo";

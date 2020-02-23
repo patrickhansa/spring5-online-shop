@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,9 +16,6 @@ import java.util.Set;
 public class ShoppingCart extends BaseEntity {
 
     private Integer quantity;
-
-    @OneToOne
-    private Member member;
 
     @OneToMany(mappedBy = "shoppingCart")
     private Set<Product> products = new HashSet<>();

@@ -16,6 +16,7 @@ import java.util.Set;
 @Builder
 @Entity
 public class Product extends BaseEntity {
+
     private String name;
     private Float price;
     private Integer stock;

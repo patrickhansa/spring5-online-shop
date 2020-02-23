@@ -67,15 +67,14 @@ class ProductTest {
     @Test
     void getCart() {
         // Given
-        String lastName = "Smith";
-        Member member = Member.builder().lastName(lastName).build();
-        ShoppingCart shoppingCart = ShoppingCart.builder().member(member).build();
+        Integer shoppingCartQuantity = 2;
+        ShoppingCart shoppingCart = ShoppingCart.builder().quantity(shoppingCartQuantity).build();
 
         // When
         product.setShoppingCart(shoppingCart);
 
         // Then
-        assertEquals(lastName, product.getShoppingCart().getMember().getLastName());
+        assertEquals(shoppingCartQuantity, product.getShoppingCart().getQuantity());
     }
 
     @Test

@@ -1,5 +1,7 @@
 package com.ecommerce.spring5onlineshop.services;
 
+import com.ecommerce.spring5onlineshop.converters.ProductCommandToProduct;
+import com.ecommerce.spring5onlineshop.converters.ProductToProductCommand;
 import com.ecommerce.spring5onlineshop.model.Product;
 import com.ecommerce.spring5onlineshop.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,11 +24,17 @@ class ProductServiceImplTest {
     @Mock
     ProductRepository productRepository;
 
+    @Mock
+    ProductToProductCommand productToProductCommand;
+
+    @Mock
+    ProductCommandToProduct productCommandToProduct;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        productService = new ProductServiceImpl(productRepository);
+        productService = new ProductServiceImpl(productRepository, productCommandToProduct, productToProductCommand);
     }
 
     @Test
