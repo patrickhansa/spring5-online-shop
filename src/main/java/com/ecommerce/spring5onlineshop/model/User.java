@@ -2,10 +2,9 @@ package com.ecommerce.spring5onlineshop.model;
 
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -13,7 +12,7 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Member extends BaseEntity {
+public class User extends BaseEntity {
 
     private String username;
     private String password;
@@ -29,4 +28,7 @@ public class Member extends BaseEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
+
+    @ManyToMany(targetEntity=Authority.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Authority> authorities = new HashSet<>();
 }

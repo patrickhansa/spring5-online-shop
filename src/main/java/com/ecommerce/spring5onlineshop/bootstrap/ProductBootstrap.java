@@ -1,10 +1,8 @@
 package com.ecommerce.spring5onlineshop.bootstrap;
 
 import com.ecommerce.spring5onlineshop.model.Category;
-import com.ecommerce.spring5onlineshop.model.Member;
 import com.ecommerce.spring5onlineshop.model.Product;
 import com.ecommerce.spring5onlineshop.repositories.CategoryRepository;
-import com.ecommerce.spring5onlineshop.repositories.MemberRepository;
 import com.ecommerce.spring5onlineshop.repositories.ProductRepository;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,18 +22,15 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
-    private final MemberRepository memberRepository;
 
-    public ProductBootstrap(CategoryRepository categoryRepository, ProductRepository productRepository, MemberRepository memberRepository) {
+    public ProductBootstrap(CategoryRepository categoryRepository, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
-        this.memberRepository = memberRepository;
     }
 
     @Override
     public void onApplicationEvent(@NotNull ContextRefreshedEvent contextRefreshedEvent) {
         productRepository.saveAll(getProducts());
-        memberRepository.saveAll(getMembers());
     }
 
     private List<Product> getProducts() {
@@ -107,38 +102,6 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
         products.add(waterproofSkiJacket);
 
         return products;
-    }
-
-    private List<Member> getMembers() {
-
-        List<Member> members = new ArrayList<>();
-
-        Member member1 = new Member();
-        member1.setUsername("Mark34");
-        member1.setPassword("fdswe");
-        member1.setFirstName("Mark");
-        member1.setLastName("Jackson");
-        member1.setGender("Male");
-        member1.setBirthDate("10.02.1986");
-        member1.setAddress("Fifth Av., New York");
-        member1.setPhone("0855-434-3233");
-        member1.setEmail("mark.34@somewhere.com");
-
-        Member member2 = new Member();
-        member2.setUsername("Sara26");
-        member2.setPassword("fdswwqqe");
-        member2.setFirstName("Sarah");
-        member2.setLastName("Smith");
-        member2.setGender("Female");
-        member2.setBirthDate("10.02.1994");
-        member2.setAddress("Green Str., Chicago");
-        member2.setPhone("0855-344-3211");
-        member2.setEmail("sara.26@somewhere.com");
-
-        members.add(member1);
-        members.add(member2);
-
-        return members;
     }
 
     /**

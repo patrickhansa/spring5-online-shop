@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class MemberCommand {
+public class UserCommand {
 
     private Long id;
     private String username;

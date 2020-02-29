@@ -1,21 +1,34 @@
 package com.ecommerce.spring5onlineshop.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import javax.sql.DataSource;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    DataSource dataSource;
+
+    @Value("${spring.queries.users-query}")
+    private String usersQuery;
+
+    @Value("${spring.queries.authorities-query}")
+    private String authoritiesQuery;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                     .antMatchers("/product/new", "/product/{\\d+}/update")
-                        .access("hasRole('ROLE_USER')")
+                        .access("hasRole('ROLE_ADMIN')")
                     .antMatchers("/", "/index")
                         .access("permitAll")
                 .and()
@@ -35,13 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             throws Exception {
 
         auth
-                .inMemoryAuthentication()
-                .withUser("buzz")
-                .password("{noop}infinity")
-                .authorities("ROLE_USER")
-                .and()
-                .withUser("woody")
-                .password("{noop}bullseye")
-                .authorities("ROLE_USER");
+                .jdbcAuthentication()
+                    .dataSource(dataSource)
+                    .usersByUsernameQuery(usersQuery)
+                    .authoritiesByUsernameQuery(authoritiesQuery);
     }
 }

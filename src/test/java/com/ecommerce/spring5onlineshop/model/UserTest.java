@@ -3,15 +3,17 @@ package com.ecommerce.spring5onlineshop.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class MemberTest {
+class UserTest {
 
-    Member member;
+    User user;
 
     @BeforeEach
     void setUp() {
-        member = new Member();
+        user = new User();
     }
 
     @Test
@@ -20,10 +22,10 @@ class MemberTest {
         String userName = "Moore";
 
         // When
-        member.setUsername(userName);
+        user.setUsername(userName);
 
         // Then
-        assertEquals(userName, member.getUsername());
+        assertEquals(userName, user.getUsername());
     }
 
     @Test
@@ -32,10 +34,10 @@ class MemberTest {
         String password = "213fdsarew";
 
         // When
-        member.setPassword(password);
+        user.setPassword(password);
 
         // Then
-        assertEquals(password, member.getPassword());
+        assertEquals(password, user.getPassword());
     }
 
     @Test
@@ -44,10 +46,10 @@ class MemberTest {
         String email = "foo";
 
         // When
-        member.setEmail(email);
+        user.setEmail(email);
 
         // Then
-        assertEquals(email, member.getEmail());
+        assertEquals(email, user.getEmail());
     }
 
     @Test
@@ -56,10 +58,10 @@ class MemberTest {
         String phone = "324324-23432-123";
 
         // When
-        member.setPhone(phone);
+        user.setPhone(phone);
 
         // Then
-        assertEquals(phone, member.getPhone());
+        assertEquals(phone, user.getPhone());
     }
 
     @Test
@@ -68,10 +70,10 @@ class MemberTest {
         String gender = "foo";
 
         // When
-        member.setGender(gender);
+        user.setGender(gender);
 
         // Then
-        assertEquals(gender, member.getGender());
+        assertEquals(gender, user.getGender());
     }
 
     @Test
@@ -80,10 +82,10 @@ class MemberTest {
         String birthDate = "19-10-1977";
 
         // When
-        member.setBirthDate(birthDate);
+        user.setBirthDate(birthDate);
 
         // Then
-        assertEquals(birthDate, member.getBirthDate());
+        assertEquals(birthDate, user.getBirthDate());
     }
 
     @Test
@@ -92,10 +94,10 @@ class MemberTest {
         String address = "foo";
 
         // When
-        member.setAddress(address);
+        user.setAddress(address);
 
         // Then
-        assertEquals(address, member.getAddress());
+        assertEquals(address, user.getAddress());
     }
 
     @Test
@@ -105,9 +107,22 @@ class MemberTest {
         ShoppingCart shoppingCart = ShoppingCart.builder().quantity(quantity).build();
 
         // When
-        member.setShoppingCart(shoppingCart);
+        user.setShoppingCart(shoppingCart);
 
         // Then
-        assertEquals(quantity, member.getShoppingCart().getQuantity());
+        assertEquals(quantity, user.getShoppingCart().getQuantity());
+    }
+
+    @Test
+    void getAuthorities() {
+        // Given
+        Authority authority = new Authority(AuthorityType.ROLE_USER);
+
+        // When
+        user.setAuthorities(Set.of(authority));
+
+        // Then
+        assertEquals(AuthorityType.ROLE_USER, user.getAuthorities().iterator().next().getName());
+        assertEquals(1, user.getAuthorities().size());
     }
 }
