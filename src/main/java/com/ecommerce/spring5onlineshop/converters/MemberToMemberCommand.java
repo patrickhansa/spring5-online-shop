@@ -26,7 +26,7 @@ public class MemberToMemberCommand implements Converter<Member, MemberCommand> {
 
         final MemberCommand memberCommand = new MemberCommand();
         memberCommand.setId(source.getId());
-        memberCommand.setUserName(source.getUserName());
+        memberCommand.setUsername(source.getUsername());
         memberCommand.setPassword(source.getPassword());
         memberCommand.setEmail(source.getEmail());
         memberCommand.setFirstName(source.getFirstName());

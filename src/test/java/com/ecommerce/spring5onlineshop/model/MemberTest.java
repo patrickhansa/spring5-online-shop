@@ -20,10 +20,10 @@ class MemberTest {
         String userName = "Moore";
 
         // When
-        member.setUserName(userName);
+        member.setUsername(userName);
 
         // Then
-        assertEquals(userName, member.getUserName());
+        assertEquals(userName, member.getUsername());
     }
 
     @Test

@@ -47,7 +47,7 @@ class MemberToMemberCommandTest {
         // Given
         Member member = new Member();
         member.setId(ID_VALUE);
-        member.setUserName(USER_NAME);
+        member.setUsername(USER_NAME);
         member.setPassword(PASSWORD);
         member.setEmail(EMAIL);
         member.setFirstName(FIRST_NAME);
@@ -67,7 +67,7 @@ class MemberToMemberCommandTest {
         assertNotNull(memberCommand);
         assertNotNull(memberCommand.getShoppingCart());
         assertEquals(ID_VALUE, memberCommand.getId());
-        assertEquals(USER_NAME, memberCommand.getUserName());
+        assertEquals(USER_NAME, memberCommand.getUsername());
         assertEquals(PASSWORD, memberCommand.getPassword());
         assertEquals(EMAIL, memberCommand.getEmail());
         assertEquals(FIRST_NAME, memberCommand.getFirstName());

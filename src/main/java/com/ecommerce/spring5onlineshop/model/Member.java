@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Member extends BaseEntity {
 
-    private String userName;
+    private String username;
     private String password;
     private String email;
     private String firstName;
