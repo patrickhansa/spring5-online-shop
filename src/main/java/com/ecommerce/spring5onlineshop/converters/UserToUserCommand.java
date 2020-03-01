@@ -36,6 +36,7 @@ public class UserToUserCommand implements Converter<User, UserCommand> {
         userCommand.setBirthDate(source.getBirthDate());
         userCommand.setAddress(source.getAddress());
         userCommand.setShoppingCart(shoppingCartConverter.convert(source.getShoppingCart()));
+        userCommand.setAuthorities(source.getAuthorities());
         return userCommand;
     }
 }

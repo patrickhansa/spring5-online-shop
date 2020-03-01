@@ -1,10 +1,14 @@
 package com.ecommerce.spring5onlineshop.converters;
 
 import com.ecommerce.spring5onlineshop.commands.UserCommand;
+import com.ecommerce.spring5onlineshop.model.Authority;
+import com.ecommerce.spring5onlineshop.model.AuthorityType;
 import com.ecommerce.spring5onlineshop.model.ShoppingCart;
 import com.ecommerce.spring5onlineshop.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,6 +63,7 @@ class UserToUserCommandTest {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(SHOPPING_CART_ID);
         user.setShoppingCart(shoppingCart);
+        user.setAuthorities(Set.of(new Authority(AuthorityType.ROLE_USER)));
 
         // When
         UserCommand userCommand = converter.convert(user);
@@ -77,5 +82,6 @@ class UserToUserCommandTest {
         assertEquals(BIRTH_DATE, userCommand.getBirthDate());
         assertEquals(ADDRESS, userCommand.getAddress());
         assertEquals(SHOPPING_CART_ID, userCommand.getShoppingCart().getId());
+        assertEquals(AuthorityType.ROLE_USER, userCommand.getAuthorities().iterator().next().getName());
     }
 }

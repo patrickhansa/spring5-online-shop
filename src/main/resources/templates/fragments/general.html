@@ -23,10 +23,29 @@
                     <a class="nav-link" th:href="@{'/index'}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Account</a>
-                </li>
-                <li class="nav-item active">
                     <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a th:if="${#request.userPrincipal}"
+                           class="dropdown-item" href="#">Edit account</a>
+                        <form th:if="!${#request.userPrincipal}"
+                              th:action="@{/registration}" method="get">
+                            <button class="dropdown-item" type="submit">Register</button>
+                        </form>
+                        <div class="dropdown-divider"></div>
+                        <form th:if="${#request.userPrincipal}"
+                              method="POST" th:action="@{/logout}">
+                            <button class="dropdown-item" type="submit">Log out</button>
+                        </form>
+                        <form th:if="!${#request.userPrincipal}"
+                              method="POST" th:action="@{/login}">
+                            <button class="dropdown-item" type="submit">Log in</button>
+                        </form>
+                    </div>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">

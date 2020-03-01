@@ -1,8 +1,12 @@
 package com.ecommerce.spring5onlineshop.commands;
 
+import com.ecommerce.spring5onlineshop.model.Authority;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -20,4 +24,5 @@ public class UserCommand {
     private String birthDate;
     private String address;
     private ShoppingCartCommand shoppingCart;
+    private Set<Authority> authorities = new HashSet<>();
 }

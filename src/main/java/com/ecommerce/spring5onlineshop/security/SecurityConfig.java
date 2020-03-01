@@ -2,11 +2,14 @@ package com.ecommerce.spring5onlineshop.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -35,12 +38,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                         .loginPage("/login")
                 .and()
+                    .logout()
+                        .logoutSuccessUrl("/")
+                .and()
                     .csrf()
                         .ignoringAntMatchers("/h2-console/**")
                 .and()
                     .headers()
                         .frameOptions()
                             .sameOrigin();
+    }
+
+    @Bean
+    public PasswordEncoder encoder() {
+        return new Pbkdf2PasswordEncoder("53cr3t");
     }
 
     @Override
@@ -51,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .jdbcAuthentication()
                     .dataSource(dataSource)
                     .usersByUsernameQuery(usersQuery)
-                    .authoritiesByUsernameQuery(authoritiesQuery);
+                    .authoritiesByUsernameQuery(authoritiesQuery)
+                    .passwordEncoder(encoder());
     }
 }

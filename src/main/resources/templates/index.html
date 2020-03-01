@@ -20,8 +20,10 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Description</th>
-                                    <th>Update</th>
-                                    <th>Delete</th>
+                                    <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                                        Update</th>
+                                    <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                                        Delete</th>
                                 </tr>
                                 </thead>
                                 <tr th:each="product : ${products}">
@@ -29,14 +31,18 @@
                                         <a th:href="@{'/product/' + ${product.id} + '/show'}" th:text="${product.id}">ID</a>
                                     </td>
                                     <td th:text="${product.name}">Product name</td>
-                                    <td><a href="#" th:href="@{'/product/' + ${product.id} + '/update'}">Update</a></td>
-                                    <td><a href="#" th:href="@{'/product/' + ${product.id} + '/delete'}">Delete</a></td>
+                                    <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                                        <a href="#" th:href="@{'/product/' + ${product.id} + '/update'}">Update</a>
+                                    </td>
+                                    <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                                        <a href="#" th:href="@{'/product/' + ${product.id} + '/delete'}">Delete</a>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-right">
+                <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="card-footer text-right">
                     <a href="/product/new" class="btn btn-primary">Add product</a>
                 </div>
             </div>

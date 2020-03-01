@@ -1,13 +1,14 @@
 package com.ecommerce.spring5onlineshop.bootstrap;
 
-import com.ecommerce.spring5onlineshop.model.Category;
-import com.ecommerce.spring5onlineshop.model.Product;
+import com.ecommerce.spring5onlineshop.model.*;
 import com.ecommerce.spring5onlineshop.repositories.CategoryRepository;
 import com.ecommerce.spring5onlineshop.repositories.ProductRepository;
+import com.ecommerce.spring5onlineshop.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -16,21 +17,27 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class ProductBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public ProductBootstrap(CategoryRepository categoryRepository, ProductRepository productRepository) {
+    public ProductBootstrap(CategoryRepository categoryRepository, ProductRepository productRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void onApplicationEvent(@NotNull ContextRefreshedEvent contextRefreshedEvent) {
         productRepository.saveAll(getProducts());
+        userRepository.saveAll(getUsers());
     }
 
     private List<Product> getProducts() {
@@ -102,6 +109,40 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
         products.add(waterproofSkiJacket);
 
         return products;
+    }
+
+    private List<User> getUsers() {
+
+        List<User> users = new ArrayList<>();
+
+        User user1 = new User();
+        user1.setUsername("admin");
+        user1.setPassword(passwordEncoder.encode("pass"));
+        user1.setFirstName("Mark");
+        user1.setLastName("Jackson");
+        user1.setGender("Male");
+        user1.setBirthDate("10.02.1986");
+        user1.setAddress("Fifth Av., New York");
+        user1.setPhone("0855-434-3233");
+        user1.setEmail("mark.34@somewhere.com");
+        user1.setAuthorities(Set.of(new Authority(AuthorityType.ROLE_ADMIN)));
+
+        User user2 = new User();
+        user2.setUsername("user");
+        user2.setPassword(passwordEncoder.encode("pass"));
+        user2.setFirstName("Sarah");
+        user2.setLastName("Smith");
+        user2.setGender("Female");
+        user2.setBirthDate("10.02.1994");
+        user2.setAddress("Green Str., Chicago");
+        user2.setPhone("0855-344-3211");
+        user2.setEmail("sara.26@somewhere.com");
+        user2.setAuthorities(Set.of(new Authority(AuthorityType.ROLE_USER)));
+
+        users.add(user1);
+        users.add(user2);
+
+        return users;
     }
 
     /**

@@ -2,9 +2,16 @@ package com.ecommerce.spring5onlineshop.converters;
 
 import com.ecommerce.spring5onlineshop.commands.ShoppingCartCommand;
 import com.ecommerce.spring5onlineshop.commands.UserCommand;
+import com.ecommerce.spring5onlineshop.model.Authority;
+import com.ecommerce.spring5onlineshop.model.AuthorityType;
 import com.ecommerce.spring5onlineshop.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,12 +31,18 @@ class UserCommandToUserTest {
 
     UserCommandToUser converter;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @BeforeEach
     void setUp() {
+        passwordEncoder = new Pbkdf2PasswordEncoder();
+
         converter = new UserCommandToUser(
                         new ShoppingCartCommandToShoppingCart(
                             new ProductCommandToProduct(
-                                new CategoryCommandToCategory())));
+                                new CategoryCommandToCategory())),
+                        passwordEncoder);
     }
 
     @Test
@@ -39,7 +52,12 @@ class UserCommandToUserTest {
 
     @Test
     public void testEmptyObject() {
-        assertNotNull(converter.convert(new UserCommand()));
+        // When
+        UserCommand command = new UserCommand();
+        command.setPassword(PASSWORD);
+
+        // Then
+        assertNotNull(converter.convert(command));
     }
 
     @Test
@@ -59,6 +77,7 @@ class UserCommandToUserTest {
         ShoppingCartCommand shoppingCartCommand = new ShoppingCartCommand();
         shoppingCartCommand.setId(SHOPPING_CART_ID);
         userCommand.setShoppingCart(shoppingCartCommand);
+        userCommand.setAuthorities(Set.of(new Authority(AuthorityType.ROLE_USER)));
 
         // When
         User user = converter.convert(userCommand);
@@ -68,7 +87,7 @@ class UserCommandToUserTest {
         assertNotNull(user.getShoppingCart());
         assertEquals(ID_VALUE, user.getId());
         assertEquals(USER_NAME, user.getUsername());
-        assertEquals(PASSWORD, user.getPassword());
+        assertTrue(passwordEncoder.matches(PASSWORD, user.getPassword()));
         assertEquals(EMAIL, user.getEmail());
         assertEquals(FIRST_NAME, user.getFirstName());
         assertEquals(LAST_NAME, user.getLastName());
@@ -77,5 +96,6 @@ class UserCommandToUserTest {
         assertEquals(BIRTH_DATE, user.getBirthDate());
         assertEquals(ADDRESS, user.getAddress());
         assertEquals(SHOPPING_CART_ID, user.getShoppingCart().getId());
+        assertEquals(AuthorityType.ROLE_USER, user.getAuthorities().iterator().next().getName());
     }
 }
