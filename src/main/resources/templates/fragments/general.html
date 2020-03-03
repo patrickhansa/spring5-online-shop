@@ -5,6 +5,7 @@
     <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
     <script src="/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
 <header th:fragment="header" class="mb-5">
@@ -31,7 +32,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a th:if="${#request.userPrincipal}"
-                           class="dropdown-item" href="#">Edit account</a>
+                           class="dropdown-item" th:href="@{'/user/edit'}">Edit account</a>
                         <form th:if="!${#request.userPrincipal}"
                               th:action="@{/registration}" method="get">
                             <button class="dropdown-item" type="submit">Register</button>
@@ -55,7 +56,7 @@
         </div>
     </nav>
 </header>
-<footer th:fragment="footer" class="navbar fixed-bottom bg-secondary">
+<footer th:fragment="footer" class="footer mt-5">
     <div class="container">
         <div class="row mx-auto">
             <div class="col-md-4">

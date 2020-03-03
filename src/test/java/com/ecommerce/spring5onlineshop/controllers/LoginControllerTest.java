@@ -1,5 +1,7 @@
 package com.ecommerce.spring5onlineshop.controllers;
 
+import com.ecommerce.spring5onlineshop.commands.UserCommand;
+import com.ecommerce.spring5onlineshop.model.User;
 import com.ecommerce.spring5onlineshop.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +10,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,9 +54,38 @@ class LoginControllerTest {
 
     @Test
     public void testPostRegistrationForm() throws Exception {
-        // Then
         mockMvc.perform(post("/registration"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login/loginForm"));
+    }
+
+    @Test
+    public void testPostUpdateUserForm() throws Exception {
+        // Given
+        UserCommand command = new UserCommand();
+        command.setId(2L);
+
+        // When
+        when(userService.saveUserCommand(any())).thenReturn(command);
+
+        // Then
+        mockMvc.perform(post("/user"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/user/2/show"));
+    }
+
+    @Test
+    public void testGetUser() throws Exception {
+        // Given
+        User user = new User();
+        user.setId(1L);
+
+        // When
+        when(userService.findById(anyLong())).thenReturn(user);
+
+        // Then
+        mockMvc.perform(get("/user/1/show"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login/show"));
     }
 }

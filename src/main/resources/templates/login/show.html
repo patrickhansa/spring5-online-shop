@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Account</title>
+    <th:block th:include="fragments/general.html :: headerfiles">
+    </th:block>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"></header>
+<!--/*@thymesVar id="user" type="com.ecommerce.spring5onlineshop.commands.UserCommand"*/-->
+<main>
+    <div class="container jumbotron" >
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div th:object="${user}" class="card-body">
+                        <h4 class="card-title" th:text="${user.firstName + ' ' + user.lastName}">Full name</h4>
+                        <p class="card-text" th:text="${'Username: ' + user.username}">Username</p>
+                        <p class="card-text" th:text="${'Email: ' + user.email}">Email</p>
+                        <p class="card-text" th:text="${'Phone: ' + user.phone}">Phone number</p>
+                        <p class="card-text" th:text="${'Gender: ' + user.gender}">Gender</p>
+                        <p class="card-text" th:text="${'Birth date: ' + user.birthDate}">Birth date</p>
+                        <p class="card-text" th:text="${'Address: ' + user.address}">Address</p>
+                        <a href="#" class="btn btn-primary">Delete account</a>
+                        <a href="#" class="btn btn-primary">Edit account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:insert="fragments/general.html :: footer"></footer>
+</body>
+</html>

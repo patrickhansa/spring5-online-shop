@@ -7,28 +7,30 @@
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"></header>
-<div class="container jumbotron">
-    <div class="row">
-        <div class="col-md-5">
-            <img class="img-fluid px-0" src="#" th:src="@{'/product/' + ${product.id} + '/productImage'}"
-                  alt="Product image">
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title" th:text="${product.name}">Product name</h4>
-                    <p class="card-text" th:text="${product.description}">Product description</p>
-                    <p class="card-text">
-                        <span class="text-success" th:if="${product.stock > 0}">In stock</span>
-                        <span class="text-danger" th:unless="${product.stock > 0}">Not available</span>
-                    </p>
-                    <p class="card-text" th:text="${'Price: ' + product.price + ' $'}">Product price</p>
-                    <a href="#" class="btn btn-primary">Add to cart</a>
+<main>
+    <div class="container jumbotron">
+        <div class="row">
+            <div class="col-md-5">
+                <img class="img-fluid px-0" src="#" th:src="@{'/product/' + ${product.id} + '/productImage'}"
+                      alt="Product image">
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title" th:text="${product.name}">Product name</h4>
+                        <p class="card-text" th:text="${product.description}">Product description</p>
+                        <p class="card-text">
+                            <span class="text-success" th:if="${product.stock > 0}">In stock</span>
+                            <span class="text-danger" th:unless="${product.stock > 0}">Not available</span>
+                        </p>
+                        <p class="card-text" th:text="${'Price: ' + product.price + ' $'}">Product price</p>
+                        <a href="#" class="btn btn-primary">Add to cart</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</main>
 <footer th:insert="fragments/general.html :: footer"></footer>
 </body>
 </html>

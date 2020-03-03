@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -47,6 +49,24 @@ class UserServiceImplTest {
         // Then
         assertNotNull(userReturned, "Null product returned");
         verify(userRepository, times(1)).getUserByUsername(anyString());
+        verify(userRepository, never()).findAll();
+    }
+
+    @Test
+    void getUserByIdTest() {
+        // Given
+        User user = new User();
+        user.setId(1L);
+        Optional<User> userOptional = Optional.of(user);
+
+        when(userRepository.findById(anyLong())).thenReturn(userOptional);
+
+        // When
+        User userReturned = userService.findById(1L);
+
+        // Then
+        assertNotNull(userReturned, "Null user returned");
+        verify(userRepository, times(1)).findById(anyLong());
         verify(userRepository, never()).findAll();
     }
 }

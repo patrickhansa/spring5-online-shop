@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit account</title>
+    <th:block th:include="fragments/general.html :: headerfiles">
+    </th:block>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"></header>
+<main>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 mx-auto">
+                <form th:object="${user}" th:action="@{/user}" method="post">
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Update account</h4>
+                            <div class="card-text form-group">
+                                <label for="password">Password: </label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+                            <div class="card-text form-group">
+                                <label for="emailInputField">Email: </label>
+                                <input type="text" id="emailInputField" class="form-control" th:field="*{email}"/>
+                            </div>
+                            <div class="card-text form-group">
+                                <label for="firstNameInputField">First name: </label>
+                                <input type="text" id="firstNameInputField" class="form-control" th:field="*{firstName}"/>
+                            </div>
+                            <div class="card-text form-group">
+                                <label for="lastNameInputField">Last name: </label>
+                                <input type="text" id="lastNameInputField" class="form-control" th:field="*{lastName}"/>
+                            </div>
+                            <div class="card-text form-group">
+                                <label for="phoneInputLabel">Phone number: </label>
+                                <input type="text" id="phoneInputLabel" class="form-control" th:field="*{phone}"/>
+                            </div>
+                            <div class="card-text form-group">
+                                <label for="birthDate">Birth date: </label>
+                                <input type="text" id="birthDate" class="form-control" th:field="*{birthDate}"/>
+                            </div>
+                            <div class="card-text form-group">
+                                <label for="addressInputField">Address: </label>
+                                <textarea id="addressInputField" class="form-control" th:field="*{address}"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:insert="fragments/general.html :: footer"></footer>
+</body>
+</html>
