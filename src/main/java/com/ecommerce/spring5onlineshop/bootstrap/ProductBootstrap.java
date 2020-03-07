@@ -3,6 +3,7 @@ package com.ecommerce.spring5onlineshop.bootstrap;
 import com.ecommerce.spring5onlineshop.model.*;
 import com.ecommerce.spring5onlineshop.repositories.CategoryRepository;
 import com.ecommerce.spring5onlineshop.repositories.ProductRepository;
+import com.ecommerce.spring5onlineshop.repositories.ShoppingCartRepository;
 import com.ecommerce.spring5onlineshop.repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,10 +15,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class ProductBootstrap implements ApplicationListener<ContextRefreshedEvent>{
@@ -26,18 +24,21 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ShoppingCartRepository shoppingCartRepository;
 
-    public ProductBootstrap(CategoryRepository categoryRepository, ProductRepository productRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public ProductBootstrap(CategoryRepository categoryRepository, ProductRepository productRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, ShoppingCartRepository shoppingCartRepository) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.shoppingCartRepository = shoppingCartRepository;
     }
 
     @Override
     public void onApplicationEvent(@NotNull ContextRefreshedEvent contextRefreshedEvent) {
         productRepository.saveAll(getProducts());
         userRepository.saveAll(getUsers());
+        shoppingCartRepository.saveAll(getCarts());
     }
 
     private List<Product> getProducts() {
@@ -125,6 +126,7 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
         user1.setAddress("Fifth Av., New York");
         user1.setPhone("0855-434-3233");
         user1.setEmail("mark.34@somewhere.com");
+        user1.setShoppingCart(new ShoppingCart());
         user1.setAuthorities(Set.of(new Authority(AuthorityType.ROLE_ADMIN)));
 
         User user2 = new User();
@@ -137,12 +139,32 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
         user2.setAddress("Green Str., Chicago");
         user2.setPhone("0855-344-3211");
         user2.setEmail("sara.26@somewhere.com");
+        user2.setShoppingCart(new ShoppingCart());
         user2.setAuthorities(Set.of(new Authority(AuthorityType.ROLE_USER)));
 
         users.add(user1);
         users.add(user2);
 
         return users;
+    }
+
+
+    private List<ShoppingCart> getCarts() {
+        List<ShoppingCart> shoppingCarts = new ArrayList<>();
+
+        ShoppingCart cart1 = new ShoppingCart();
+
+        Iterable<Product> products = productRepository.findAll();
+
+        Set<Product> productSet = new HashSet<>();
+
+        products.forEach(productSet::add);
+
+        cart1.setProducts(productSet);
+
+        shoppingCarts.add(cart1);
+
+        return shoppingCarts;
     }
 
     /**

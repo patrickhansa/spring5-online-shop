@@ -24,7 +24,8 @@
                             <span class="text-danger" th:unless="${product.stock > 0}">Not available</span>
                         </p>
                         <p class="card-text" th:text="${'Price: ' + product.price + ' $'}">Product price</p>
-                        <a href="#" class="btn btn-primary">Add to cart</a>
+                        <a th:href="@{'/product/' + ${product.id} + '/saveToCart'}"
+                           href="#" class="btn btn-primary">Add to cart</a>
                     </div>
                 </div>
             </div>

@@ -9,12 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -39,35 +37,6 @@ class UserServiceIT {
 
     @Autowired
     UserToUserCommand userToUserCommand;
-
-    @Test
-    void loadUserByUsername() {
-        // Given
-        User user = User.builder().username(USERNAME).password(PASSWORD).build();
-        userRepository.save(user);
-
-        // When
-        UserDetails userDetails = userServiceImpl.loadUserByUsername(USERNAME);
-
-        // Then
-        assertEquals(USERNAME, userDetails.getUsername());
-        assertEquals(PASSWORD, userDetails.getPassword());
-    }
-
-    @Test
-    void whenUsernameNotFoundExceptionThrown() {
-        // Given
-        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
-            userServiceImpl.loadUserByUsername(NOT_FOUND);
-        });
-
-        // When
-        String expectedMessage = "User '" + NOT_FOUND + "' not found";
-        String actualMessage = exception.getMessage();
-
-        // Then
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
 
     @Transactional
     @Test

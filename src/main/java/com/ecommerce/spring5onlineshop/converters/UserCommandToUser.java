@@ -1,5 +1,6 @@
 package com.ecommerce.spring5onlineshop.converters;
 
+import com.ecommerce.spring5onlineshop.commands.ShoppingCartCommand;
 import com.ecommerce.spring5onlineshop.commands.UserCommand;
 import com.ecommerce.spring5onlineshop.model.Authority;
 import com.ecommerce.spring5onlineshop.model.AuthorityType;
@@ -28,9 +29,6 @@ public class UserCommandToUser implements Converter<UserCommand, User> {
     @Nullable
     @Override
     public User convert(UserCommand source) {
-        if (source == null) {
-            return null;
-        }
 
         final User user = new User();
         user.setId(source.getId());
@@ -44,12 +42,24 @@ public class UserCommandToUser implements Converter<UserCommand, User> {
         user.setGender(source.getGender());
         user.setBirthDate(source.getBirthDate());
         user.setAddress(source.getAddress());
-        user.setShoppingCart(shoppingCartConverter.convert(source.getShoppingCart()));
+
+        // If the user does not have a shopping cart,
+        // then create one for him. Otherwise, use the
+        // one already assigned to him.
+        if (source.getShoppingCart() == null) {
+            user.setShoppingCart(shoppingCartConverter.convert(new ShoppingCartCommand()));
+        } else {
+            user.setShoppingCart(shoppingCartConverter.convert(source.getShoppingCart()));
+        }
+
+        // If it's a new member, give him a 'USER' authority.
+        // Otherwise, keep the authority he already has.
         if (source.getAuthorities().isEmpty()) {
             user.setAuthorities(Set.of(new Authority(AuthorityType.ROLE_USER)));
         } else {
             user.setAuthorities(source.getAuthorities());
         }
+
         return user;
     }
 }

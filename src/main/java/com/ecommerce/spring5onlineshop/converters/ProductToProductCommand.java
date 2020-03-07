@@ -6,6 +6,9 @@ import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.*;
 
 @Component
 public class ProductToProductCommand implements Converter<Product, ProductCommand> {
@@ -20,8 +23,14 @@ public class ProductToProductCommand implements Converter<Product, ProductComman
     @Nullable
     @Override
     public ProductCommand convert(Product source) {
-        if (source == null) {
-            return null;
+        // Convert the Byte array that represents
+        // the image to a byte array
+        Byte[] byteObjects = source.getImage();
+        byte[] bytes = new byte[byteObjects.length];
+        int j = 0;
+
+        for (Byte b : byteObjects) {
+            bytes[j++] = b;
         }
 
         final ProductCommand productCommand = new ProductCommand();
@@ -30,10 +39,7 @@ public class ProductToProductCommand implements Converter<Product, ProductComman
         productCommand.setPrice(source.getPrice());
         productCommand.setStock(source.getStock());
         productCommand.setDescription(source.getDescription());
-
-        if (source.getShoppingCart() != null) {
-            productCommand.setShoppingCartId(source.getShoppingCart().getId());
-        }
+        productCommand.setImage(new DecodedMultipartFile(bytes));
 
         if (source.getCategories() != null && source.getCategories().size() > 0) {
             source.getCategories()
@@ -43,4 +49,58 @@ public class ProductToProductCommand implements Converter<Product, ProductComman
 
         return productCommand;
     }
+
+
+    public static class DecodedMultipartFile implements MultipartFile {
+        private final byte[] imgContent;
+
+        public DecodedMultipartFile(byte[] imgContent) {
+            this.imgContent = imgContent;
+        }
+
+        @Override
+        public String getName() {
+            // TODO - implementation depends on your requirements
+            return null;
+        }
+
+        @Override
+        public String getOriginalFilename() {
+            // TODO - implementation depends on your requirements
+            return null;
+        }
+
+        @Override
+        public String getContentType() {
+            // TODO - implementation depends on your requirements
+            return null;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return imgContent == null || imgContent.length == 0;
+        }
+
+        @Override
+        public long getSize() {
+            return imgContent.length;
+        }
+
+        @Override
+        public byte[] getBytes() throws IOException {
+            return imgContent;
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            return new ByteArrayInputStream(imgContent);
+        }
+
+        @Override
+        public void transferTo(File dest) throws IOException, IllegalStateException {
+            new FileOutputStream(dest).write(imgContent);
+        }
+    }
 }
+
+

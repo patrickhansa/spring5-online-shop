@@ -3,7 +3,6 @@ package com.ecommerce.spring5onlineshop.converters;
 import com.ecommerce.spring5onlineshop.commands.ProductCommand;
 import com.ecommerce.spring5onlineshop.model.Category;
 import com.ecommerce.spring5onlineshop.model.Product;
-import com.ecommerce.spring5onlineshop.model.ShoppingCart;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +21,7 @@ class ProductToProductCommandTest {
     private static final Integer STOCK = 12;
     private static final String DESCRIPTION = "Foo";
     private static final Long SHOPPING_CART_ID = 2L;
+    private static final Byte[] IMAGE = new Byte[] {0x12, 0x13};
 
     ProductToProductCommand converter;
 
@@ -32,12 +32,17 @@ class ProductToProductCommandTest {
 
     @Test
     public void testNullObject() {
-        assertNull(converter.convert(null));
+        assertThrows(NullPointerException.class, () -> converter.convert(null));
     }
 
     @Test
     public void testEmptyObject() {
-        assertNotNull(converter.convert(new Product()));
+        // Given
+        Product product = new Product();
+        product.setImage(IMAGE);
+
+        // Then
+        assertNotNull(converter.convert(product));
     }
 
     @Test
@@ -49,9 +54,7 @@ class ProductToProductCommandTest {
         product.setPrice(PRICE);
         product.setStock(STOCK);
         product.setDescription(DESCRIPTION);
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setId(SHOPPING_CART_ID);
-        product.setShoppingCart(shoppingCart);
+        product.setImage(IMAGE);
         Set<Category> categories = Stream.of(new Category(), new Category())
                 .collect(Collectors.toCollection(HashSet::new));
         product.setCategories(categories);
@@ -68,6 +71,5 @@ class ProductToProductCommandTest {
         assertEquals(PRICE, productCommand.getPrice());
         assertEquals(STOCK, productCommand.getStock());
         assertEquals(DESCRIPTION, productCommand.getDescription());
-        assertEquals(SHOPPING_CART_ID, productCommand.getShoppingCartId());
     }
 }

@@ -21,7 +21,7 @@ class CategoryToCategoryCommandTest {
 
     @Test
     public void testNullParameter() {
-        assertNull(converter.convert(null));
+        assertThrows(NullPointerException.class, () -> converter.convert(null));
     }
 
     @Test

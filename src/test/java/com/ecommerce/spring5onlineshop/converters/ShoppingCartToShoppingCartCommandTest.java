@@ -14,6 +14,7 @@ class ShoppingCartToShoppingCartCommandTest {
     private static final Integer QUANTITY = 12;
     private static final Long PRODUCT_ID_1 = 2L;
     private static final Long PRODUCT_ID_2 = 3L;
+    private static final Byte[] IMAGE = new Byte[] {0x11, 0x12};
 
     ShoppingCartToShoppingCartCommand converter;
 
@@ -26,7 +27,7 @@ class ShoppingCartToShoppingCartCommandTest {
 
     @Test
     public void testNullObject() {
-        assertNull(converter.convert(null));
+        assertThrows(NullPointerException.class, () -> converter.convert(null));
     }
 
     @Test
@@ -42,8 +43,10 @@ class ShoppingCartToShoppingCartCommandTest {
         shoppingCart.setQuantity(QUANTITY);
         Product product1 = new Product();
         product1.setId(PRODUCT_ID_1);
+        product1.setImage(IMAGE);
         Product product2 = new Product();
         product2.setId(PRODUCT_ID_2);
+        product2.setImage(IMAGE);
         shoppingCart.getProducts().add(product1);
         shoppingCart.getProducts().add(product2);
 

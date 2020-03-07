@@ -37,7 +37,7 @@ class ProductCommandToProductTest {
 
     @Test
     public void testNullObject() {
-        assertNull(converter.convert(null));
+        assertThrows(NullPointerException.class, () -> converter.convert(null));
     }
 
     @Test
@@ -77,6 +77,5 @@ class ProductCommandToProductTest {
         assertEquals(PRICE, product.getPrice());
         assertEquals(STOCK, product.getStock());
         assertEquals(DESCRIPTION, product.getDescription());
-        assertEquals(SHOPPING_CART_ID, product.getShoppingCart().getId());
     }
 }

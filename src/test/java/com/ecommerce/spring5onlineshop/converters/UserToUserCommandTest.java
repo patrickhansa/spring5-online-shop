@@ -38,12 +38,12 @@ class UserToUserCommandTest {
 
     @Test
     public void testNullObject() {
-        assertNull(converter.convert(null));
+        assertThrows(NullPointerException.class, () -> converter.convert(null));
     }
 
     @Test
     public void testEmptyObject() {
-        assertNotNull(converter.convert(new User()));
+        assertNotNull(converter.convert(User.builder().shoppingCart(new ShoppingCart()).build()));
     }
 
     @Test

@@ -20,9 +20,6 @@ public class UserToUserCommand implements Converter<User, UserCommand> {
     @Nullable
     @Override
     public UserCommand convert(User source) {
-        if (source == null) {
-            return null;
-        }
 
         final UserCommand userCommand = new UserCommand();
         userCommand.setId(source.getId());

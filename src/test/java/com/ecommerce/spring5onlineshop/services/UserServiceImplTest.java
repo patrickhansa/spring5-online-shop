@@ -1,8 +1,10 @@
 package com.ecommerce.spring5onlineshop.services;
 
+import com.ecommerce.spring5onlineshop.commands.UserCommand;
 import com.ecommerce.spring5onlineshop.converters.UserCommandToUser;
 import com.ecommerce.spring5onlineshop.converters.UserToUserCommand;
 import com.ecommerce.spring5onlineshop.model.User;
+import com.ecommerce.spring5onlineshop.repositories.ShoppingCartRepository;
 import com.ecommerce.spring5onlineshop.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,9 @@ class UserServiceImplTest {
     UserRepository userRepository;
 
     @Mock
+    ShoppingCartRepository shoppingCartRepository;
+
+    @Mock
     UserCommandToUser userCommandToUser;
 
     @Mock
@@ -33,23 +38,7 @@ class UserServiceImplTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        userService = new UserServiceImpl(userRepository, userCommandToUser, userToUserCommand);
-    }
-
-    @Test
-    void getUserByUsernameTest() {
-        // Given
-        User user = new User();
-
-        when(userRepository.getUserByUsername(anyString())).thenReturn(user);
-
-        // When
-        User userReturned = userService.findUserByUsername(USERNAME);
-
-        // Then
-        assertNotNull(userReturned, "Null product returned");
-        verify(userRepository, times(1)).getUserByUsername(anyString());
-        verify(userRepository, never()).findAll();
+        userService = new UserServiceImpl(userRepository, shoppingCartRepository, userCommandToUser, userToUserCommand);
     }
 
     @Test
@@ -67,6 +56,23 @@ class UserServiceImplTest {
         // Then
         assertNotNull(userReturned, "Null user returned");
         verify(userRepository, times(1)).findById(anyLong());
+        verify(userRepository, never()).findAll();
+    }
+
+    @Test
+    void getUserByUsernameTest() {
+        // Given
+        UserCommand userCommand = new UserCommand();
+        userCommand.setUsername(USERNAME);
+
+        when(userToUserCommand.convert(any())).thenReturn(userCommand);
+
+        // When
+        UserCommand userByUsername = userService.findCommandByUsername(USERNAME);
+
+        // Then
+        assertNotNull(userByUsername, "Null product returned");
+        verify(userRepository, times(1)).getUserByUsername(anyString());
         verify(userRepository, never()).findAll();
     }
 }

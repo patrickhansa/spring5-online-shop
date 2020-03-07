@@ -20,9 +20,6 @@ public class ShoppingCartCommandToShoppingCart implements Converter<ShoppingCart
     @Nullable
     @Override
     public ShoppingCart convert(ShoppingCartCommand source) {
-        if (source == null) {
-            return null;
-        }
 
         final ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(source.getId());
