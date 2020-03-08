@@ -4,10 +4,16 @@
     <title>Online shop</title>
     <th:block th:include="fragments/general.html :: headerfiles">
     </th:block>
+    <link rel="stylesheet" th:href="@{/css/index.css}"/>
 </head>
 <body>
-<header th:insert="fragments/general.html :: header"></header>
-<main th:insert="fragments/showProducts.html :: main"></main>
-<footer th:insert="fragments/general.html :: footer"></footer>
+<header th:include="fragments/general.html :: header"></header>
+<main>
+    <div class="welcome-page-text">
+        <h1>A few clicks is all it takes. Shopping made easy.</h1>
+        <a class="btn btn-outline-light" th:href="@{'/product/showAll'}" href="#">Start shopping</a>
+    </div>
+</main>
+<footer th:include="fragments/general.html :: footer"></footer>
 </body>
 </html>

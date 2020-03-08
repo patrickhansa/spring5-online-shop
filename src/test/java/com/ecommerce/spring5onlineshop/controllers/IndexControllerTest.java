@@ -65,7 +65,6 @@ public class IndexControllerTest {
         // When
         String viewName = controller.getIndexPage(model);
 
-
         // Then
         assertEquals("index", viewName);
         verify(productService, times(1)).getProducts();

@@ -20,6 +20,14 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @RequestMapping("/product/showAll")
+    public String showAllProducts(Model model) {
+
+        model.addAttribute("products", productService.getProducts());
+
+        return "product/showCatalog";
+    }
+
     @RequestMapping("/product/{id}/show")
     public String showById(@PathVariable String id, Model model) {
 

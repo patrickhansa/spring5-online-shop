@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Online shop</title>
+    <th:block th:include="fragments/general.html :: headerfiles">
+    </th:block>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"></header>
+<main th:insert="fragments/showProducts.html :: main"></main>
+<footer th:insert="fragments/general.html :: footer"></footer>
+</body>
+</html>
