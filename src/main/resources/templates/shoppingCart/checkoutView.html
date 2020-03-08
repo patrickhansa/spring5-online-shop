@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Shopping cart</title>
+    <th:block th:include="fragments/general.html :: headerfiles">
+    </th:block>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"></header>
+<main>
+    <div class="container jumbotron" >
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div th:object="${user}" class="card-body">
+                        <h4 class="card-title">Delivery address</h4>
+                        <p class="card-title" th:text="${user.firstName + ' ' + user.lastName}">Full name</p>
+                        <p class="card-text" th:text="${'Email: ' + user.email}">Email</p>
+                        <p class="card-text" th:text="${'Phone: ' + user.phone}">Phone number</p>
+                        <p class="card-text" th:text="${'Address: ' + user.address}">Address</p>
+                        <p class="card-text" th:text="${'Total price: ' + price + ' $'}">Price</p>
+                        <a th:href="${'/user/changeAddress'}" href="#" class="btn btn-primary">Change address</a>
+                        <a th:href="${'/shoppingCart/purchase'}" href="#" class="btn btn-primary">Purchase</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:insert="fragments/general.html :: footer"></footer>
+</body>
+</html>

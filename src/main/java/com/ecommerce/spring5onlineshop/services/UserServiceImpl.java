@@ -1,6 +1,7 @@
 package com.ecommerce.spring5onlineshop.services;
 
 import com.ecommerce.spring5onlineshop.commands.UserCommand;
+import com.ecommerce.spring5onlineshop.converters.ShoppingCartToShoppingCartCommand;
 import com.ecommerce.spring5onlineshop.converters.UserCommandToUser;
 import com.ecommerce.spring5onlineshop.converters.UserToUserCommand;
 import com.ecommerce.spring5onlineshop.model.Authority;
@@ -27,21 +28,34 @@ public class UserServiceImpl implements UserService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final UserCommandToUser userCommandToUser;
     private final UserToUserCommand userToUserCommand;
+    private final ShoppingCartToShoppingCartCommand shoppingCartToShoppingCartCommand;
 
     public UserServiceImpl(UserRepository userRepository,
                            ShoppingCartRepository shoppingCartRepository,
                            UserCommandToUser userCommandToUser,
-                           UserToUserCommand userToUserCommand) {
+                           UserToUserCommand userToUserCommand,
+                           ShoppingCartToShoppingCartCommand shoppingCartToShoppingCartCommand) {
         this.userRepository = userRepository;
         this.shoppingCartRepository = shoppingCartRepository;
         this.userCommandToUser = userCommandToUser;
         this.userToUserCommand = userToUserCommand;
+        this.shoppingCartToShoppingCartCommand = shoppingCartToShoppingCartCommand;
     }
 
     @Override
     @Transactional
     public UserCommand saveUserCommand(UserCommand command) {
-        User detachedUser = userCommandToUser.convert(command);
+        User detachedUser;
+
+        if (command.getId() == null) {
+            detachedUser = userCommandToUser.convert(command);
+        } else {
+            // Fill the attributes in the command which are null
+            // with the values from the database
+            UserCommand completeCommand = fillUserCommand(command);
+
+            detachedUser = userCommandToUser.convert(completeCommand);
+        }
 
         assert detachedUser != null;
         User savedUser = userRepository.save(detachedUser);
@@ -92,5 +106,59 @@ public class UserServiceImpl implements UserService {
         }
 
         throw new RuntimeException("Shopping cart not found");
+    }
+
+    /**
+     * Used when getting the user data from the
+     * front-end. If some attributes of the User command
+     * object were not filled in, then fill them with the
+     * values from the database.
+     *
+     * @param command the Command object to be completed
+     * @return the filled in Command object
+     */
+    private UserCommand fillUserCommand(UserCommand command) {
+        // Get the user with the command's ID
+        Optional<User> userOptional = userRepository.findById(command.getId());
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            // For the fields in the command which are null,
+            // set them to the corresponding fields in the user
+            if (command.getPassword() == null) {
+                command.setPassword(user.getPassword());
+            }
+            if (command.getUsername() == null) {
+                command.setUsername(user.getUsername());
+            }
+            if (command.getFirstName() == null) {
+                command.setFirstName(user.getFirstName());
+            }
+            if (command.getLastName() == null) {
+                command.setLastName(user.getLastName());
+            }
+            if (command.getAddress() == null) {
+                command.setAddress(user.getAddress());
+            }
+            if (command.getBirthDate() == null) {
+                command.setBirthDate(user.getBirthDate());
+            }
+            if (command.getEmail() == null) {
+                command.setEmail(user.getEmail());
+            }
+            if (command.getGender() == null) {
+                command.setGender(user.getGender());
+            }
+            if (command.getPhone() == null) {
+                command.setPhone(user.getPhone());
+            }
+            if (command.getShoppingCart() == null) {
+                command.setShoppingCart(shoppingCartToShoppingCartCommand.convert(user.getShoppingCart()));
+            }
+        }
+
+        // Return the changed command
+        return command;
     }
 }

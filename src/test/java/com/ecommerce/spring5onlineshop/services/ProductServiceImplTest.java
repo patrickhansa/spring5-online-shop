@@ -59,6 +59,7 @@ class ProductServiceImplTest {
     void getProductsTest() {
         // Given
         Product product = new Product();
+        product.setStock(2);
         Set<Product> productData = new HashSet<>();
         productData.add(product);
 

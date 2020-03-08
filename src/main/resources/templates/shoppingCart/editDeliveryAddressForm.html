@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit account</title>
+    <title>Edit delivery address</title>
     <th:block th:include="fragments/general.html :: headerfiles">
     </th:block>
 </head>
@@ -11,19 +11,11 @@
     <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-md-6 col-md-offset-3 mx-auto">
-                <form th:object="${user}" th:action="@{/user}" method="post">
+                <form th:object="${user}" th:action="@{/user/changeAddress}" method="post">
                     <input type="hidden" th:field="*{id}"/>
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Update account</h4>
-                            <div class="card-text form-group">
-                            <label for="password">Password: </label>
-                            <input type="password" id="password" name="password" class="form-control" required>
-                        </div>
-                            <div class="card-text form-group">
-                                <label for="emailInputField">Email: </label>
-                                <input type="text" id="emailInputField" class="form-control" th:field="*{email}"/>
-                            </div>
+                            <h4 class="card-title">Update delivery address</h4>
                             <div class="card-text form-group">
                                 <label for="firstNameInputField">First name: </label>
                                 <input type="text" id="firstNameInputField" class="form-control" th:field="*{firstName}"/>
@@ -35,10 +27,6 @@
                             <div class="card-text form-group">
                                 <label for="phoneInputLabel">Phone number: </label>
                                 <input type="text" id="phoneInputLabel" class="form-control" th:field="*{phone}"/>
-                            </div>
-                            <div class="card-text form-group">
-                                <label for="birthDate">Birth date: </label>
-                                <input type="text" id="birthDate" class="form-control" th:field="*{birthDate}"/>
                             </div>
                             <div class="card-text form-group">
                                 <label for="addressInputField">Address: </label>

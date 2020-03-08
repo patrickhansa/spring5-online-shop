@@ -1,6 +1,7 @@
 package com.ecommerce.spring5onlineshop.services;
 
 import com.ecommerce.spring5onlineshop.commands.UserCommand;
+import com.ecommerce.spring5onlineshop.converters.ShoppingCartToShoppingCartCommand;
 import com.ecommerce.spring5onlineshop.converters.UserCommandToUser;
 import com.ecommerce.spring5onlineshop.converters.UserToUserCommand;
 import com.ecommerce.spring5onlineshop.model.User;
@@ -34,11 +35,15 @@ class UserServiceImplTest {
     @Mock
     UserToUserCommand userToUserCommand;
 
+    @Mock
+    ShoppingCartToShoppingCartCommand shoppingCartToShoppingCartCommand;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        userService = new UserServiceImpl(userRepository, shoppingCartRepository, userCommandToUser, userToUserCommand);
+        userService = new UserServiceImpl(userRepository, shoppingCartRepository,
+                userCommandToUser, userToUserCommand, shoppingCartToShoppingCartCommand);
     }
 
     @Test

@@ -33,6 +33,7 @@ public class ProductServiceImpl implements ProductService {
     public Set<Product> getProducts() {
         Set<Product> productSet = new HashSet<>();
         productRepository.findAll().iterator().forEachRemaining(productSet::add);
+        productSet.removeIf(product -> product.getStock() == 0);
         return productSet;
     }
 

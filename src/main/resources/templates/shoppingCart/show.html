@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Shopping cart</title>
+    <th:block th:include="fragments/general.html :: headerfiles">
+    </th:block>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"></header>
+<main>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Your cart:</h4>
+                        <div class="card-text">
+                            <div class="table-responsive" th:if="${not #lists.isEmpty(products)}">
+                                <table class="table table-hover ">
+                                    <thead class="thead-inverse">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Description</th>
+                                        <th>Remove</th>
+                                    </tr>
+                                    </thead>
+                                    <tr th:each="product : ${products}">
+                                        <td>
+                                            <a th:href="@{'/product/' + ${product.id} + '/show'}"
+                                               th:text="${product.id}">ID</a>
+                                        </td>
+                                        <td th:text="${product.name}">Product name</td>
+                                        <td>
+                                            <a href="#"
+                                               th:href="@{'/shoppingCart/product/' + ${product.id} + '/remove'}">Remove</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:insert="fragments/general.html :: footer"></footer>
+</body>
+</html>

@@ -13,9 +13,9 @@
             <h4 class="text-success">Product added to cart</h4>
         </div>
         <div class="row">
-            <a href="#" class="btn btn-primary col-md-4">Cart</a>
+            <a th:href="${'/shoppingCart/view'}" href="#" class="btn btn-primary col-md-4">Cart</a>
             <div class="col-md-2"></div>
-            <a href="#" class="btn btn-primary col-md-4">Proceed to checkout</a>
+            <a th:href="${'/shoppingCart/checkout'}" href="#" class="btn btn-primary col-md-4">Proceed to checkout</a>
         </div>
     </div>
 </main>
