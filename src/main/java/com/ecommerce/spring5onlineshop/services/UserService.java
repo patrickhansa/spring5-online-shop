@@ -15,4 +15,6 @@ public interface UserService {
     Long findShoppingCartIdByUsername(String username);
 
     void setAuthority(UserCommand command, Authentication authentication);
+
+    void deleteUserById(Long userId);
 }

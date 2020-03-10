@@ -48,8 +48,8 @@
                     </div>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0 pr-4">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="form-inline my-2 my-lg-0 pr-4" th:action="@{/product/search}" method="get">
+                <input class="form-control mr-sm-2" type="search" aria-label="Search" placeholder="Product name" th:name="productName"/>
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
             </form>
             <a th:if="${#request.userPrincipal}" th:href="${'/shoppingCart/view'}"

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
 public class LoginController {
 
@@ -74,5 +73,13 @@ public class LoginController {
         model.addAttribute("user", userService.findById(Long.valueOf(id)));
 
         return "login/show";
+    }
+
+    @RequestMapping("/user/{id}/delete")
+    public String deleteUserById(@PathVariable String id) {
+
+        userService.deleteUserById(Long.valueOf(id));
+
+        return "index";
     }
 }

@@ -5,10 +5,7 @@ import com.ecommerce.spring5onlineshop.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
@@ -63,9 +60,19 @@ public class ProductController {
     @RequestMapping("product/{id}/delete")
     public String deleteById(@PathVariable String id) {
 
-        log.debug("Deleting ID: " + id);
+        log.debug("Deleting product with ID: " + id);
 
         productService.deleteById(Long.valueOf(id));
-        return "redirect:/";
+
+        return "product/showCatalog";
+    }
+
+    @RequestMapping("product/search")
+    public String searchProductByName(
+            @RequestParam(value = "productName", required = false) String productName, Model model) {
+
+        model.addAttribute("products", productService.listProductsByName(productName));
+
+        return "product/showCatalog";
     }
 }

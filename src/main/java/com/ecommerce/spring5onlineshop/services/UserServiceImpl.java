@@ -108,6 +108,13 @@ public class UserServiceImpl implements UserService {
         throw new RuntimeException("Shopping cart not found");
     }
 
+    @Override
+    public void deleteUserById(Long userId) {
+
+        log.debug("Delete user with ID: " + userId);
+        userRepository.deleteById(userId);
+    }
+
     /**
      * Used when getting the user data from the
      * front-end. If some attributes of the User command

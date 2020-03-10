@@ -26,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ProductControllerTest {
 
+    String PRODUCT_ID = "1";
+
     @Mock
     ProductService productService;
 
@@ -105,11 +107,16 @@ public class ProductControllerTest {
 
     @Test
     public void testDeleteAction() throws Exception {
-        mockMvc.perform(get("/product/1/delete"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+        // Given
+        String Url = "/product/" + PRODUCT_ID + "/delete";
 
-        verify(productService, times(1)).deleteById(anyLong());
+        // When
+        mockMvc.perform(get(Url))
+                .andExpect(status().isOk())
+                .andExpect(view().name("product/showCatalog"));
+
+        // Then
+        verify(productService, times(1)).deleteById(Long.valueOf(PRODUCT_ID));
     }
 
     @Test
@@ -120,7 +127,6 @@ public class ProductControllerTest {
 
         Product product = new Product();
         product.setId(1L);
-
         products.add(product);
 
         when(productService.getProducts()).thenReturn(products);
@@ -133,6 +139,32 @@ public class ProductControllerTest {
         // Then
         assertEquals("product/showCatalog", viewName);
         verify(productService, times(1)).getProducts();
+        verify(model, times(1)).addAttribute(eq("products"), argumentCaptor.capture());
+        Set<Product> setInController = argumentCaptor.getValue();
+        assertEquals(2, setInController.size());
+    }
+
+    @Test
+    void searchProductByName() {
+        // Given
+        String productName = "foo";
+        Set<Product> products = new HashSet<>();
+        products.add(new Product());
+
+        Product product = new Product();
+        product.setId(1L);
+        products.add(product);
+
+        when(productService.listProductsByName(anyString())).thenReturn(products);
+
+        ArgumentCaptor<Set<Product>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
+
+        // When
+        String viewName = controller.searchProductByName(productName, model);
+
+        // Then
+        assertEquals("product/showCatalog", viewName);
+        verify(productService, times(1)).listProductsByName(productName);
         verify(model, times(1)).addAttribute(eq("products"), argumentCaptor.capture());
         Set<Product> setInController = argumentCaptor.getValue();
         assertEquals(2, setInController.size());

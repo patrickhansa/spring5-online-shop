@@ -15,4 +15,6 @@ public interface ProductService {
     ProductCommand saveProductCommand(ProductCommand command);
 
     void deleteById(Long l);
+
+    Set<Product> listProductsByName(String productName);
 }

@@ -21,8 +21,8 @@
                         <p class="card-text" th:text="${'Gender: ' + user.gender}">Gender</p>
                         <p class="card-text" th:text="${'Birth date: ' + user.birthDate}">Birth date</p>
                         <p class="card-text" th:text="${'Address: ' + user.address}">Address</p>
-                        <a href="#" class="btn btn-primary">Delete account</a>
-                        <a href="#" class="btn btn-primary">Edit account</a>
+                        <a href="#" th:href="${'/user/' + user.id + '/delete'}" class="btn btn-primary">Delete account</a>
+                        <a href="#" th:href="${'/user/edit'}" class="btn btn-primary">Edit account</a>
                     </div>
                 </div>
             </div>

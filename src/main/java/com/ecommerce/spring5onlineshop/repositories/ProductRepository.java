@@ -15,4 +15,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     @Query(value = SELECT_PRODUCTS_BY_SHOPPING_CART_ID, nativeQuery = true)
     Set<Product> getProductsByShoppingCartId(Long id);
+
+    Set<Product> findByNameContainingIgnoreCase(String productName);
 }

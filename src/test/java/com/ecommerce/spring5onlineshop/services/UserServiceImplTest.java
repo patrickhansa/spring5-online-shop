@@ -80,4 +80,13 @@ class UserServiceImplTest {
         verify(userRepository, times(1)).getUserByUsername(anyString());
         verify(userRepository, never()).findAll();
     }
+
+    @Test
+    void deleteUserById() {
+        // When
+        userService.deleteUserById(anyLong());
+
+        // Then
+        verify(userRepository, times(1)).deleteById(anyLong());
+    }
 }

@@ -4,6 +4,7 @@ import com.ecommerce.spring5onlineshop.converters.ProductCommandToProduct;
 import com.ecommerce.spring5onlineshop.converters.ProductToProductCommand;
 import com.ecommerce.spring5onlineshop.model.Product;
 import com.ecommerce.spring5onlineshop.repositories.ProductRepository;
+import com.ecommerce.spring5onlineshop.repositories.ShoppingCartRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -25,6 +26,9 @@ class ProductServiceImplTest {
     ProductRepository productRepository;
 
     @Mock
+    ShoppingCartRepository shoppingCartRepository;
+
+    @Mock
     ProductToProductCommand productToProductCommand;
 
     @Mock
@@ -34,7 +38,8 @@ class ProductServiceImplTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        productService = new ProductServiceImpl(productRepository, productCommandToProduct, productToProductCommand);
+        productService = new ProductServiceImpl(productRepository, shoppingCartRepository,
+                productCommandToProduct, productToProductCommand);
     }
 
     @Test
@@ -83,6 +88,19 @@ class ProductServiceImplTest {
         productService.deleteById(idToDelete);
 
         // Then
-        verify(productRepository, times(1)).deleteById(anyLong());
+        verify(productRepository, times(1)).deleteById(idToDelete);
+        verify(shoppingCartRepository, times(1)).getShoppingCartsByProductId(idToDelete);
+    }
+
+    @Test
+    void listProductsByName() {
+        // Given
+        String productName = "foo";
+
+        // When
+        productService.listProductsByName(productName);
+
+        // Then
+        verify(productRepository, times(1)).findByNameContainingIgnoreCase(productName);
     }
 }

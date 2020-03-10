@@ -114,6 +114,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             }
         }
 
+        // Empty the shopping cart
+        for (Product productInShoppingCart : productsInShoppingCart) {
+            removeItemFromShoppingCart(shoppingCartId, productInShoppingCart.getId());
+        }
+
+        // Update the database with the new product stocks
         productRepository.saveAll(productsInDb);
     }
 

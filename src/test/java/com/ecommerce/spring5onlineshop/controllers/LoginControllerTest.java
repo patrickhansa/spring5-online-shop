@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -87,5 +87,14 @@ class LoginControllerTest {
         mockMvc.perform(get("/user/1/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login/show"));
+    }
+
+    @Test
+    void deleteUserById() throws Exception {
+        mockMvc.perform(get("/user/2/delete"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("index"));
+
+        verify(userService, times(1)).deleteUserById(anyLong());
     }
 }
