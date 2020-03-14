@@ -58,11 +58,13 @@ public class ProductController {
     }
 
     @RequestMapping("product/{id}/delete")
-    public String deleteById(@PathVariable String id) {
+    public String deleteById(@PathVariable String id, Model model) {
 
         log.debug("Deleting product with ID: " + id);
 
         productService.deleteById(Long.valueOf(id));
+
+        model.addAttribute("products", productService.getProducts());
 
         return "product/showCatalog";
     }

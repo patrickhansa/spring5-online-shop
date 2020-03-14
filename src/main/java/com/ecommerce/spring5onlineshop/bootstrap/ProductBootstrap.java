@@ -36,9 +36,18 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
 
     @Override
     public void onApplicationEvent(@NotNull ContextRefreshedEvent contextRefreshedEvent) {
-        productRepository.saveAll(getProducts());
-        userRepository.saveAll(getUsers());
-        shoppingCartRepository.saveAll(getCarts());
+        if (categoryRepository.count() == 0) {
+            categoryRepository.saveAll(getCategories());
+        }
+        if (productRepository.count() == 0) {
+            productRepository.saveAll(getProducts());
+        }
+        if (userRepository.count() == 0) {
+            userRepository.saveAll(getUsers());
+        }
+        if (shoppingCartRepository.count() == 0) {
+            shoppingCartRepository.saveAll(getCarts());
+        }
     }
 
     private List<Product> getProducts() {
@@ -166,6 +175,15 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
 
         return shoppingCarts;
     }
+
+    private List<Category> getCategories() {
+        Category bookCategory = Category.builder().description("Book").build();
+        Category electronicsCategory = Category.builder().description("Electronics").build();
+        Category clothingCategory = Category.builder().description("Clothing").build();
+
+        return new ArrayList<>(List.of(bookCategory, electronicsCategory, clothingCategory));
+    }
+
 
     /**
      * Utility method for converting a local image

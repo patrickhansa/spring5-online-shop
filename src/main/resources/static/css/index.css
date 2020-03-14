@@ -22,11 +22,3 @@ h1 {
     letter-spacing: 1px;
     word-spacing: 3px;
 }
-
-.welcome-page-text {
-    position: absolute;
-    width: 1140px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}

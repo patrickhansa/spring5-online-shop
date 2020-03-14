@@ -20,3 +20,9 @@ footer {
     display: block;
     background-color: #39566f;
 }
+
+@media only screen and (max-width: 600px) {
+    #searchBar, #dropDown {
+        width: 150px;
+    }
+}

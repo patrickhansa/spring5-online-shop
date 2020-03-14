@@ -13,7 +13,7 @@
         <a class="navbar-brand" href="#">
             <img src="/images/Logo.png" width="30" height="30" alt="Logo">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,7 +29,7 @@
                     <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Account
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropDown">
                         <a th:if="${#request.userPrincipal}"
                            class="dropdown-item" th:href="@{'/user/edit'}">Edit account</a>
                         <form th:if="!${#request.userPrincipal}"
@@ -49,7 +49,7 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0 pr-4" th:action="@{/product/search}" method="get">
-                <input class="form-control mr-sm-2" type="search" aria-label="Search" placeholder="Product name" th:name="productName"/>
+                <input class="form-control mr-sm-2" id="searchBar" type="search" aria-label="Search" placeholder="Product name" th:name="productName"/>
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
             </form>
             <a th:if="${#request.userPrincipal}" th:href="${'/shoppingCart/view'}"

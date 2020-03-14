@@ -1,0 +1,15 @@
+create table authority (id bigint not null auto_increment, name varchar(255), primary key (id)) engine=InnoDB;
+create table category (id bigint not null auto_increment, description varchar(255), primary key (id)) engine=InnoDB;
+create table product (id bigint not null auto_increment, description longtext, image longblob, name varchar(255), price float, stock integer, primary key (id)) engine=InnoDB;
+create table product_categories (product_id bigint not null, categories_id bigint not null, primary key (product_id, categories_id)) engine=InnoDB;
+create table shopping_cart (id bigint not null auto_increment, quantity integer, primary key (id)) engine=InnoDB;
+create table shopping_cart_products (shopping_cart_id bigint not null, products_id bigint not null, primary key (shopping_cart_id, products_id)) engine=InnoDB;
+create table user (id bigint not null auto_increment, address longtext, birth_date varchar(255), email varchar(255), first_name varchar(255), gender varchar(255), last_name varchar(255), password varchar(255), phone varchar(255), username varchar(255), shopping_cart_id bigint, primary key (id)) engine=InnoDB;
+create table user_authorities (user_id bigint not null, authorities_id bigint not null, primary key (user_id, authorities_id)) engine=InnoDB;
+alter table product_categories add constraint FKa7jsv21elnyd204l5kas653ac foreign key (categories_id) references category (id);
+alter table product_categories add constraint FKppc5s0f38pgb35a32dlgyhorc foreign key (product_id) references product (id);
+alter table shopping_cart_products add constraint FKn20twvy1qcs0yytn5uehmtl5 foreign key (products_id) references product (id);
+alter table shopping_cart_products add constraint FKb0wl9vd38umuh226jsjqx3grq foreign key (shopping_cart_id) references shopping_cart (id);
+alter table user add constraint FKh5obx0rolrd96wox7cylr8r0u foreign key (shopping_cart_id) references shopping_cart (id);
+alter table user_authorities add constraint FKjnv4419cqm68s2gm2sm15r16q foreign key (authorities_id) references authority (id);
+alter table user_authorities add constraint FKmj13d0mnuj4cd8b6htotbf9mm foreign key (user_id) references user (id);
