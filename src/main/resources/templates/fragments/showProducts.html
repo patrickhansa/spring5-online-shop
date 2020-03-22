@@ -14,8 +14,8 @@
                                 <table class="table table-hover ">
                                     <thead class="thead-inverse">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Description</th>
+                                        <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                                            Name</th>
                                         <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                                             Update</th>
                                         <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
@@ -24,9 +24,11 @@
                                     </thead>
                                     <tr th:each="product : ${products}">
                                         <td>
-                                            <a th:href="@{'/product/' + ${product.id} + '/show'}" th:text="${product.id}">ID</a>
+                                            <a class="text-decoration-none text-dark"
+                                               th:href="@{'/product/' + ${product.id} + '/show'}"
+                                               th:text="${product.name}">Product name
+                                            </a>
                                         </td>
-                                        <td th:text="${product.name}">Product name</td>
                                         <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                                             <a href="#" th:href="@{'/product/' + ${product.id} + '/update'}">Update</a>
                                         </td>

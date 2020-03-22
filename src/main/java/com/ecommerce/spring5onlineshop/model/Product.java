@@ -1,6 +1,7 @@
 package com.ecommerce.spring5onlineshop.model;
 
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -14,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Product extends BaseEntity {
+public class Product extends BaseEntity implements Comparable<Product> {
 
     private String name;
     private Float price;
@@ -28,4 +29,12 @@ public class Product extends BaseEntity {
 
     @ManyToMany(targetEntity=Category.class)
     private Set<Category> categories = new HashSet<>();
+
+    @Override
+    public int compareTo(@NotNull Product o) {
+        if (this.name == null) {
+            return -1;
+        }
+        return this.name.compareTo(o.getName());
+    }
 }

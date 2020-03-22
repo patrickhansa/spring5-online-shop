@@ -11,9 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Slf4j
 @Service
@@ -36,9 +36,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Set<Product> getProducts() {
-        Set<Product> productSet = new HashSet<>();
+        Set<Product> productSet = new TreeSet<>();
         productRepository.findAll().iterator().forEachRemaining(productSet::add);
         productSet.removeIf(product -> product.getStock() == 0);
+
         return productSet;
     }
 

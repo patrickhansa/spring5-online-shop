@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -65,7 +65,7 @@ class ProductServiceImplTest {
         // Given
         Product product = new Product();
         product.setStock(2);
-        Set<Product> productData = new HashSet<>();
+        Set<Product> productData = new TreeSet<>();
         productData.add(product);
 
         when(productService.getProducts()).thenReturn(productData);

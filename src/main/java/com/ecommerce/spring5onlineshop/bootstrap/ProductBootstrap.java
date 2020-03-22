@@ -88,6 +88,31 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
                 "and all the variations on love and family happiness.\n");
         annaKareninaBookProduct.setImage(fileToByteArray("Anna_Karenina"));
 
+        Product brothersKaramazovProduct = new Product();
+        brothersKaramazovProduct.getCategories().add(bookCategory);
+        brothersKaramazovProduct.setName("The Brothers Karamazov");
+        brothersKaramazovProduct.setPrice(5.88F);
+        brothersKaramazovProduct.setStock(3);
+        brothersKaramazovProduct.setDescription("The Brothers Karamazov is a murder mystery, a courtroom drama, and " +
+                "an exploration of erotic rivalry in a series of triangular love affairs involving the “wicked and" +
+                " sentimental” Fyodor Pavlovich Karamazov and his three sons―the impulsive and sensual Dmitri;" +
+                " the coldly rational Ivan; and the healthy, red-cheeked young novice Alyosha. Through the " +
+                "gripping events of their story, Dostoevsky portrays the whole of Russian life, is social and " +
+                "spiritual striving, in what was both the golden age and a tragic turning point in Russian culture.\n" +
+                "This award-winning translation by Richard Pevear and Larissa Volokhonsky remains true to the verbal\n" +
+                "inventiveness of Dostoevsky’s prose, preserving the multiple voices, the humor, and the surprising " +
+                "modernity of the original. It is an achievement worthy of Dostoevsky’s last and greatest novel.\n");
+        brothersKaramazovProduct.setImage(fileToByteArray("Brothers_Karamazov"));
+
+        Product thePlagueProduct = new Product();
+        thePlagueProduct.getCategories().add(bookCategory);
+        thePlagueProduct.setName("The plague");
+        thePlagueProduct.setPrice(11.01F);
+        thePlagueProduct.setStock(3);
+        thePlagueProduct.setDescription("A haunting tale of human resilience in the face of " +
+                "unrelieved horror, Camus' novel about a bubonic plague ravaging the people of a " +
+                "North African coastal town is a classic of twentieth-century literature.");
+        thePlagueProduct.setImage(fileToByteArray("The_plague"));
 
         Product smartLedTv = new Product();
         smartLedTv.getCategories().add(electronicsCategory);
@@ -99,6 +124,37 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
                 "Network File Browser Yes ; Google Dial Yes");
         smartLedTv.setImage(fileToByteArray("Smart_led_TV"));
 
+        Product noiseCancellingHeadphonesProduct = new Product();
+        noiseCancellingHeadphonesProduct.getCategories().add(electronicsCategory);
+        noiseCancellingHeadphonesProduct.setName("Noise Cancelling Headphones Real Over Ear,Wireless Lightweight " +
+                "Srhythm Durable Foldable Deep Bass Hi-Fi Stereo Bluetooth Headset with Mic and Wire for TV, " +
+                "PC, Cell Phone- Low Latency");
+        noiseCancellingHeadphonesProduct.setPrice(59.99F);
+        noiseCancellingHeadphonesProduct.setStock(1);
+        noiseCancellingHeadphonesProduct.setDescription("Active Noise Cancellation Technology (ANC). Professional " +
+                "advanced noise cancellation technology,effectively cancel 85% machine noise such as " +
+                "airplane/bus/factory/office noise, etc.(pls kindly note:it's not 100% noise cancellation, " +
+                "but it will quell much background noise.)so you can focus on what are you doing. " +
+                "ANC function works well in both wired and wireless mode.NC25 noise cancelling " +
+                "headphones would be the best model in the same level of price.\n Ultimate Fit & Comfort - " +
+                "Exclusive Designs of Air Pressure Balance.Multi-level adjustable headband to get the best " +
+                "suitable size for you.To reduce sound wave pressure of active noise reduction,to feel much " +
+                "more comfortable to wear than all other brands.");
+        noiseCancellingHeadphonesProduct.setImage(fileToByteArray("Headphones"));
+
+        Product whiteNoiseMachineProduct = new Product();
+        whiteNoiseMachineProduct.getCategories().add(electronicsCategory);
+        whiteNoiseMachineProduct.setName("Adaptive Sound Technologies LectroFan High Fidelity White Noise Sound " +
+                "Machine with 20 Unique Non-Looping Fan and White Noise Sounds and Sleep Timer");
+        whiteNoiseMachineProduct.setPrice(37.95F);
+        whiteNoiseMachineProduct.setStock(4);
+        whiteNoiseMachineProduct.setDescription("Provides ten fan sounds and ten ambient noise variations, including " +
+                "white noise, pink noise and brown noise\n Helps mask disruptive environmental noises so you or your " +
+                "little one can fall asleep with ease. 12 inch cord length\n Safe, solid-state design is powered by" +
+                " AC or USB and dynamically creates unique, non-repeating sounds with no moving parts. " +
+                "Power is 110V AC, USB\n Precise volume control allows you to set the perfect level for your unique " +
+                "environment. 1dB increment control for 10x quieter –10x louder than fan machines");
+        whiteNoiseMachineProduct.setImage(fileToByteArray("White_noise"));
 
         Product waterproofSkiJacket = new Product();
         waterproofSkiJacket.getCategories().add(clothingCategory);
@@ -113,10 +169,43 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
                 "Ergonomic 3-structured cutting and fuzzy lining can provide enough warmth for outdoor life");
         waterproofSkiJacket.setImage(fileToByteArray("Winter_jacket"));
 
+        Product underArmourCapProduct = new Product();
+        underArmourCapProduct.getCategories().add(clothingCategory);
+        underArmourCapProduct.setName("Under Armour Men's Blitzing 3.0 Cap");
+        underArmourCapProduct.setPrice(24.99F);
+        underArmourCapProduct.setStock(5);
+        underArmourCapProduct.setDescription("UA Classic Fit features a pre-curved visor & structured front panels " +
+                "that maintain shape with a low profile fit\n Front panel backed with foam padding for added comfort\n " +
+                "UA Microthread fabric uses re-engineered fibers designed to give superior stretch & breathability\n " +
+                "Built-in HeatGear sweatband wicks away sweat to keep you cool & dry\n Stretch construction provides" +
+                " a comfortable fit");
+        underArmourCapProduct.setImage(fileToByteArray("Cap"));
+
+        Product glovesProduct = new Product();
+        glovesProduct.getCategories().add(clothingCategory);
+        glovesProduct.setName("Coolibar UPF 50+ Men's Women's Gannett UV Gloves - Sun Protective");
+        glovesProduct.setPrice(32.00F);
+        glovesProduct.setStock(5);
+        glovesProduct.setDescription("UCmax™ fabric: A blend of breathable micro mesh and 4-way stretch fabric " +
+                "engineered with our Cooltect™ technology to keep your skin cool, dry and works smart to " +
+                "block UVA/UVB radiation while feeling soft and lightweight\n Touchscreen compatibility makes " +
+                "for easy convenience; Silicone print on palm and fingers for added grip and dexterity\n Length of" +
+                " glove (from top of middle finger to cuff edge - size medium): 9.4 inches; Easy care: machine wash," +
+                " tumble dry; Imported\n Recommended for achieving Ultimate Coverage in Sun Protection for light" +
+                " activities like driving, relaxing, or walking outdoors wearing UPF 50+ clothing");
+        glovesProduct.setImage(fileToByteArray("Gloves"));
 
         products.add(annaKareninaBookProduct);
+        products.add(brothersKaramazovProduct);
+        products.add(thePlagueProduct);
+
         products.add(smartLedTv);
+        products.add(noiseCancellingHeadphonesProduct);
+        products.add(whiteNoiseMachineProduct);
+
         products.add(waterproofSkiJacket);
+        products.add(underArmourCapProduct);
+        products.add(glovesProduct);
 
         return products;
     }
