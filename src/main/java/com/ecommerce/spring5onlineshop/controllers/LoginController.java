@@ -3,6 +3,7 @@ package com.ecommerce.spring5onlineshop.controllers;
 import com.ecommerce.spring5onlineshop.commands.UserCommand;
 import com.ecommerce.spring5onlineshop.services.UserService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,6 +80,7 @@ public class LoginController {
     public String deleteUserById(@PathVariable String id) {
 
         userService.deleteUserById(Long.valueOf(id));
+        SecurityContextHolder.getContext().setAuthentication(null);
 
         return "index";
     }

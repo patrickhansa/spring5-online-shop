@@ -51,8 +51,8 @@ class RestLoginControllerTest {
     }
 
     @Test
-    void getUserById() throws Exception {
-        mockMvc.perform(get("/api/user/1")
+    void getUserByUsername() throws Exception {
+        mockMvc.perform(get("/api/user/someone")
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk());
     }
