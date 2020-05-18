@@ -30,21 +30,17 @@
                         Account
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="dropDown">
-                        <a th:if="${#request.userPrincipal}"
-                           class="dropdown-item" th:href="@{'/user/edit'}">Edit account</a>
-                        <form th:if="!${#request.userPrincipal}"
-                              th:action="@{/registration}" method="get">
-                            <button class="dropdown-item" type="submit">Register</button>
-                        </form>
+                        <a th:if="${#request.userPrincipal}" th:href="@{'/user/edit'}" class="dropdown-item" >Edit account</a>
+                        <a th:if="!${#request.userPrincipal}" th:href="@{'/registration'}" class="text-decoration-none">
+                            <button class="dropdown-item">Register</button>
+                        </a>
                         <div class="dropdown-divider"></div>
-                        <form th:if="${#request.userPrincipal}"
-                              method="POST" th:action="@{/logout}">
-                            <button class="dropdown-item" type="submit">Log out</button>
-                        </form>
-                        <form th:if="!${#request.userPrincipal}"
-                              method="POST" th:action="@{/login}">
-                            <button class="dropdown-item" type="submit">Log in</button>
-                        </form>
+                        <a th:if="${#request.userPrincipal}" th:href="@{'/logout'}" class="text-decoration-none">
+                            <button class="dropdown-item">Log out</button>
+                        </a>
+                        <a th:if="!${#request.userPrincipal}" th:href="@{'/login'}" class="text-decoration-none">
+                            <button class="dropdown-item">Log in</button>
+                        </a>
                     </div>
                 </li>
             </ul>

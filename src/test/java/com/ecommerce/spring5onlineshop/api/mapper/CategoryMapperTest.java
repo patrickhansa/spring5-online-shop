@@ -12,6 +12,7 @@ class CategoryMapperTest {
 
     CategoryMapper categoryMapper = CategoryMapper.INSTANCE;
 
+
     @Test
     void categoryToCategoryDTO() {
         // Given
@@ -22,5 +23,17 @@ class CategoryMapperTest {
 
         // Then
         assertEquals(DESCRIPTION, categoryDTO.getDescription());
+    }
+
+    @Test
+    void categoryDTOToCategory() {
+        // Given
+        CategoryDTO categoryDTO = CategoryDTO.builder().description(DESCRIPTION).build();
+
+        // When
+        Category category = categoryMapper.categoryDTOToCategory(categoryDTO);
+
+        // Then
+        assertEquals(DESCRIPTION, category.getDescription());
     }
 }

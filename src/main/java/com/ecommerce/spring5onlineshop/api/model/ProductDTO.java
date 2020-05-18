@@ -20,6 +20,5 @@ public class ProductDTO {
     private Integer stock;
     private String description;
     private String image;
-    private Long shoppingCartId;
     private Set<CategoryDTO> categories = new HashSet<>();
 }

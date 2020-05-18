@@ -1,5 +1,10 @@
 package com.ecommerce.spring5onlineshop.services;
 
+import com.ecommerce.spring5onlineshop.api.mapper.ShoppingCartMapper;
+import com.ecommerce.spring5onlineshop.api.mapper.UserMapper;
+import com.ecommerce.spring5onlineshop.api.model.AuthorityDTO;
+import com.ecommerce.spring5onlineshop.api.model.ShoppingCartDTO;
+import com.ecommerce.spring5onlineshop.api.model.UserDTO;
 import com.ecommerce.spring5onlineshop.commands.UserCommand;
 import com.ecommerce.spring5onlineshop.converters.ShoppingCartToShoppingCartCommand;
 import com.ecommerce.spring5onlineshop.converters.UserCommandToUser;
@@ -10,6 +15,7 @@ import com.ecommerce.spring5onlineshop.model.ShoppingCart;
 import com.ecommerce.spring5onlineshop.model.User;
 import com.ecommerce.spring5onlineshop.repositories.ShoppingCartRepository;
 import com.ecommerce.spring5onlineshop.repositories.UserRepository;
+import com.ecommerce.spring5onlineshop.security.SecurityConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -64,6 +70,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
+    public UserDTO saveUserDTO(UserDTO userDTO) {
+        User detachedUser;
+
+        if (userDTO.getId() == null) {
+            // If the user is being registered
+            userDTO.setAuthorityDTOSet(Set.of(new AuthorityDTO(AuthorityType.ROLE_USER)));
+            userDTO.setPassword(SecurityConfig.pbkdf2PasswordEncoder.encode(userDTO.getPassword()));
+            userDTO.setShoppingCartDTO((new ShoppingCartDTO()));
+            detachedUser = UserMapper.INSTANCE.userDTOToUser(userDTO);
+        } else {
+            // Fill the attributes in the command which are null
+            // with the values from the database
+            UserDTO completeDTO = fillUserDTO(userDTO);
+
+            detachedUser = UserMapper.INSTANCE.userDTOToUser(completeDTO);
+        }
+
+        assert detachedUser != null;
+        User savedUser = userRepository.save(detachedUser);
+        log.debug("Saved user ID: " + savedUser.getId());
+        return UserMapper.INSTANCE.userToUserDTO(savedUser);
+    }
+
+    @Override
     public User findById(Long l) {
 
         Optional<User> userOptional = userRepository.findById(l);
@@ -81,6 +112,24 @@ public class UserServiceImpl implements UserService {
     public UserCommand findCommandByUsername(String username) {
 
         return userToUserCommand.convert(userRepository.getUserByUsername(username));
+    }
+
+    @Override
+    @Transactional
+    public UserDTO findUserDTOByUsername(String username) {
+
+        return UserMapper.INSTANCE.userToUserDTO(userRepository.getUserByUsername(username));
+    }
+
+    @Override
+    public UserDTO loginUserByUsername(String username, String password) {
+        User user = userRepository.getUserByUsername(username);
+
+        if (user != null && SecurityConfig.pbkdf2PasswordEncoder.matches(password, user.getPassword())) {
+            return UserMapper.INSTANCE.userToUserDTO(user);
+        } else {
+            return new UserDTO();
+        }
     }
 
     @Override
@@ -167,5 +216,59 @@ public class UserServiceImpl implements UserService {
 
         // Return the changed command
         return command;
+    }
+
+    /**
+     * Used when getting the user data from the
+     * front-end. If some attributes of the User DTO
+     * were not filled in, then fill them with the
+     * values from the database.
+     *
+     * @param userDTO the DTO to be completed
+     * @return the filled in DTO
+     */
+    private UserDTO fillUserDTO(UserDTO userDTO) {
+        // Get the user with the DTOs ID
+        Optional<User> userOptional = userRepository.findById(userDTO.getId());
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            // For the fields in the DTO which are null,
+            // set them to the corresponding fields in the user
+            if (userDTO.getPassword() == null) {
+                userDTO.setPassword(user.getPassword());
+            }
+            if (userDTO.getUsername() == null) {
+                userDTO.setUsername(user.getUsername());
+            }
+            if (userDTO.getFirstName() == null) {
+                userDTO.setFirstName(user.getFirstName());
+            }
+            if (userDTO.getLastName() == null) {
+                userDTO.setLastName(user.getLastName());
+            }
+            if (userDTO.getAddress() == null) {
+                userDTO.setAddress(user.getAddress());
+            }
+            if (userDTO.getBirthDate() == null) {
+                userDTO.setBirthDate(user.getBirthDate());
+            }
+            if (userDTO.getEmail() == null) {
+                userDTO.setEmail(user.getEmail());
+            }
+            if (userDTO.getGender() == null) {
+                userDTO.setGender(user.getGender());
+            }
+            if (userDTO.getPhone() == null) {
+                userDTO.setPhone(user.getPhone());
+            }
+            if (userDTO.getShoppingCartDTO() == null) {
+                userDTO.setShoppingCartDTO(ShoppingCartMapper.INSTANCE.shoppingCartToShoppingCartDTO(user.getShoppingCart()));
+            }
+        }
+
+        // Return the changed DTO
+        return userDTO;
     }
 }

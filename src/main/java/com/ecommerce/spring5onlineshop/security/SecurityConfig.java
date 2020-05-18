@@ -8,10 +8,16 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -28,33 +34,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+            http
                 .authorizeRequests()
-                    .antMatchers("/product/new", "/product/{\\d+}/update")
-                        .access("hasRole('ROLE_ADMIN')")
-                    .antMatchers("/", "/index")
-                        .access("permitAll")
-                .and()
-                    .formLogin()
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/product/showAll")
-                .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
-                .and()
-                    .headers()
-                        .frameOptions()
-                            .sameOrigin()
-                .and()
-                    .csrf()
-                        .ignoringAntMatchers("/h2-console/**")
-                        .disable();
+                    .antMatchers("/product/new", "/product/{\\d+}/update").access("hasRole('ROLE_ADMIN')")
+                    .antMatchers("/", "/index").access("permitAll")
+                    .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/product/showAll")
+                    .failureHandler(customAuthenticationFailureHandler())
+                    .and()
+                .logout()
+                    .logoutSuccessUrl("/")
+                    .and()
+                .headers()
+                    .frameOptions()
+                    .sameOrigin()
+                    .and()
+                .csrf()
+                    .ignoringAntMatchers("/h2-console/**")
+                    .disable();
     }
 
     @Bean
     public PasswordEncoder encoder() {
-        return new Pbkdf2PasswordEncoder("53cr3t");
+        return pbkdf2PasswordEncoder;
     }
+
+    public static Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder("53cr3t");
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
@@ -66,5 +73,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .usersByUsernameQuery(usersQuery)
                     .authoritiesByUsernameQuery(authoritiesQuery)
                     .passwordEncoder(encoder());
+    }
+
+    @Bean
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+
+    public static class CustomAuthenticationFailureHandler
+            implements AuthenticationFailureHandler {
+
+        @Override
+        public void onAuthenticationFailure(
+                HttpServletRequest request,
+                HttpServletResponse response,
+                AuthenticationException exception)
+                throws IOException, ServletException {
+
+            response.sendRedirect("/login");
+        }
     }
 }

@@ -5,12 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDTO {
+public class ShoppingCartDTO {
 
     private Long id;
-    private String description;
+    private Integer quantity;
+    private Set<ProductDTO> products = new HashSet<>();
 }

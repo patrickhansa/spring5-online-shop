@@ -3,9 +3,8 @@ package com.ecommerce.spring5onlineshop.model;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +14,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Product extends BaseEntity implements Comparable<Product> {
+public class Product implements Comparable<Product>, Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
     private Float price;

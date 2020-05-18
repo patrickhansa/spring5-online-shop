@@ -3,6 +3,7 @@ package com.ecommerce.spring5onlineshop.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-public class User extends BaseEntity {
+public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String username;
     private String password;

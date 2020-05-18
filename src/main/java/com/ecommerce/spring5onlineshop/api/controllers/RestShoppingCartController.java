@@ -47,26 +47,31 @@ public class RestShoppingCartController {
         shoppingCartService.placeOrder(shoppingCartId);
     }
 
-    @PutMapping("/{username}/{id}")
+    @RequestMapping("/{username}/cartTotal")
+    @ResponseStatus(HttpStatus.OK)
+    public Float getShoppingCartPrice(@PathVariable String username) {
+
+        return shoppingCartService.getShoppingCartPrice(username);
+    }
+
+    @PutMapping("/{username}/{productId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ShoppingCartCommand addProductToShoppingCart(@PathVariable String username, @PathVariable String id) {
+    public void addProductToShoppingCart(@PathVariable String username, @PathVariable String productId) {
 
         Long shoppingCartId = userService.findShoppingCartIdByUsername(username);
 
         ShoppingCartCommand shoppingCartCommand =
-                shoppingCartService.addProductToShoppingCart(Long.valueOf(id), shoppingCartId);
+                shoppingCartService.addProductToShoppingCart(Long.valueOf(productId), shoppingCartId);
 
         shoppingCartService.saveShoppingCartCommand(shoppingCartCommand);
-
-        return shoppingCartCommand;
     }
 
-    @DeleteMapping("/{username}/{id}")
+    @DeleteMapping("/{username}/{productId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteProductInShoppingCart(@PathVariable String username, @PathVariable String id) {
+    public void deleteProductInShoppingCart(@PathVariable String username, @PathVariable String productId) {
 
         Long shoppingCartId = userService.findShoppingCartIdByUsername(username);
 
-        shoppingCartService.removeItemFromShoppingCart(shoppingCartId, Long.valueOf(id));
+        shoppingCartService.removeItemFromShoppingCart(shoppingCartId, Long.valueOf(productId));
     }
 }
